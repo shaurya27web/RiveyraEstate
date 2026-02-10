@@ -5,6 +5,7 @@ import PhotoGallery from '../../components/common/home/PhotoGallery/PhotoGallery
 import Credibility from '../../components/common/home/Credibility/Credibility';
 import { FaBuilding, FaHome, FaCity, FaUmbrellaBeach } from 'react-icons/fa';
 import './Home.css';
+import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
 const Home = () => {
   const [properties, setProperties] = useState([]);
@@ -74,6 +75,7 @@ const Home = () => {
   return (
     <div className="home-page">
       <Hero />
+      <ScrollToTop/>
       
       <section className="section categories-section">
         <div className="container">
