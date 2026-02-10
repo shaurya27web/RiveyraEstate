@@ -1,0 +1,146 @@
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: 
+    width 0.3s ease,
+    height 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    transform 0.1s ease;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.custom-cursor.link-hover {
+  width: 40px;
+  height: 40px;
+  border-color: var(--accent-color);
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.custom-cursor.link-hover::before {
+  background-color: var(--accent-color);
+  width: 10px;
+  height: 10px;
+}
+
+.custom-cursor.button-hover {
+  width: 50px;
+  height: 50px;
+  border-color: var(--secondary-color);
+  background-color: rgba(30, 64, 175, 0.1);
+}
+
+.custom-cursor.button-hover::before {
+  background-color: var(--secondary-color);
+  width: 12px;
+  height: 12px;
+}
+
+/* Click Effect */
+.custom-cursor.clicked {
+  width: 15px;
+  height: 15px;
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+}
+
+.custom-cursor.clicked::before {
+  opacity: 0;
+}
+
+.custom-cursor.clicked::after {
+  transform: translate(-50%, -50%) scale(1);
+  border-color: var(--accent-color);
+}
+
+/* Hidden state when cursor leaves window */
+.custom-cursor.hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+/* Trail effect */
+.custom-cursor {
+  filter: drop-shadow(0 0 5px rgba(13, 148, 136, 0.5));
+}
+
+/* Different cursor for different elements */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor,
+.btn:hover ~ .custom-cursor {
+  width: 40px;
+  height: 40px;
+}
+
+input:hover ~ .custom-cursor,
+textarea:hover ~ .custom-cursor,
+select:hover ~ .custom-cursor {
+  width: 10px;
+  height: 10px;
+  border-color: var(--text-light);
+}
+
+/* Disable cursor on mobile/touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Smooth transition for the entire page */
+* {
+  cursor: none !important;
+}
+
+/* Keep default cursor for form elements on focus for accessibility */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  cursor: default !important;
+}
+
+/* Trail particles */
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: opacity 0.3s ease;
+}

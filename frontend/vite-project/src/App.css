@@ -1,0 +1,49 @@
+/* Only hide cursor for body and main content, not header/footer */
+body, 
+.main-content,
+main,
+section,
+div:not(header *, footer *) {
+  cursor: none !important;
+}
+
+/* Explicitly set cursor for header and footer */
+header, footer {
+  cursor: default !important;
+}
+
+header a, 
+header button, 
+header [role="button"],
+footer a, 
+footer button, 
+footer [role="button"] {
+  cursor: pointer !important;
+}
+
+/* Form elements */
+input, textarea, select {
+  cursor: text !important;
+}
+
+button, a {
+  cursor: pointer !important;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 70px;
+  }
+}
