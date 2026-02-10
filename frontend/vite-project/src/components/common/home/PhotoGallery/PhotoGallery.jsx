@@ -225,23 +225,33 @@ const PhotoGallery = () => {
 
         <div className="gallery-info">
           <div className="info-content">
-            <p className="info-text">
-              Browse through our collection of professionally photographed properties. 
-              Each image showcases the quality and attention to detail you can expect 
-              from our listed properties.
-            </p>
-            <div className="info-stats">
-              <div className="stat">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Properties</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Professionally Shot</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">360°</span>
-                <span className="stat-label">Virtual Tours</span>
+            <div className="info-text-wrapper">
+              <p className="info-text">
+                Browse through our collection of professionally photographed properties. 
+                Each image showcases the quality and attention to detail you can expect 
+                from our listed properties.
+              </p>
+            </div>
+            <div className="info-stats-wrapper">
+              <div className="info-stats">
+                <div className="stat">
+                  <div className="stat-circle">
+                    <span className="stat-number">500+</span>
+                  </div>
+                  <span className="stat-label">Properties</span>
+                </div>
+                <div className="stat">
+                  <div className="stat-circle">
+                    <span className="stat-number">100%</span>
+                  </div>
+                  <span className="stat-label">Professionally Shot</span>
+                </div>
+                <div className="stat">
+                  <div className="stat-circle">
+                    <span className="stat-number">360°</span>
+                  </div>
+                  <span className="stat-label">Virtual Tours</span>
+                </div>
               </div>
             </div>
           </div>
