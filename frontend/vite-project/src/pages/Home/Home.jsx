@@ -101,25 +101,64 @@ const Home = () => {
       <FeaturedProperties properties={properties} />
       <PhotoGallery />
       <Credibility/>
-      <section className="section cta-section">
-        <div className="container">
-          <div className="cta-content">
-            <h2 className="cta-title">Ready to Find Your Dream Home?</h2>
-            <p className="cta-text">
-              Join thousands of satisfied customers who found their perfect home with us.
-            </p>
-            <div className="cta-buttons">
-              <button className="btn btn-primary btn-lg">
-                Browse Properties
-              </button>
-              <button className="btn btn-secondary btn-lg">
-                Contact Agent
-              </button>
-            </div>
+   <section className="section cta-section" data-aos="fade-up" data-aos-duration="800">
+  <div className="container">
+    <div className="cta-content">
+      <div className="cta-badge" data-aos="zoom-in" data-aos-delay="200">
+        🏡 Limited Time Offer
+      </div>
+      
+      <h2 className="cta-title" data-aos="fade-up" data-aos-delay="300">
+        Ready to Find Your <span className="cta-highlight">Dream Home</span>?
+      </h2>
+      
+      <p className="cta-text" data-aos="fade-up" data-aos-delay="400">
+        Join thousands of satisfied customers who found their perfect home with us. 
+        Get started today with our expert agents.
+      </p>
+      
+      <div className="cta-buttons" data-aos="fade-up" data-aos-delay="500">
+        <button className="btn btn-primary btn-lg btn-with-arrow">
+          Browse Properties
+          <span className="arrow-icon">→</span>
+        </button>
+        
+        <button className="btn btn-secondary btn-lg">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" className="btn-icon">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          Contact Agent
+        </button>
+      </div>
+      
+      <div className="cta-features" data-aos="fade-up" data-aos-delay="600">
+        <div className="feature-item" data-aos="zoom-in" data-aos-delay="700">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon">✓</div>
           </div>
+          <span>No Hidden Fees</span>
         </div>
-      </section>
-
+        <div className="feature-item" data-aos="zoom-in" data-aos-delay="750">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon">✓</div>
+          </div>
+          <span>Free Consultation</span>
+        </div>
+        <div className="feature-item" data-aos="zoom-in" data-aos-delay="800">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon">✓</div>
+          </div>
+          <span>24/7 Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {/* Animated Background Elements */}
+  <div className="floating-home-icon">🏠</div>
+  <div className="floating-key-icon">🔑</div>
+  <div className="floating-heart-icon">❤️</div>
+</section>
     </div>
   );
 };

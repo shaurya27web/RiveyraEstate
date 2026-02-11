@@ -33,21 +33,21 @@ const PhotoGallery = () => {
     },
     {
       id: 4,
-      url: 'https://images.unsplash.com/photo-1567496898669-ee935f003f30?w=1200&auto=format&fit=crop',
+      url: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmlsbGF8ZW58MHx8MHx8fDA%3D',
       title: 'Elegant Bedroom',
       category: 'Bedroom',
       description: 'Master suite with walk-in closet and en-suite bathroom'
     },
     {
       id: 5,
-      url: 'https://images.unsplash.com/photo-1558036117-15e82a2c9a9a?w=1200&auto=format&fit=crop',
+      url: 'https://media.istockphoto.com/id/2223376026/photo/luxury-tropical-pool-villa-at-dusk.webp?a=1&b=1&s=612x612&w=0&k=20&c=GMSYvuNWDXpCjbFAwDTmN5rRMJizMoKoQHcbyWGtcw0=',
       title: 'Home Office Space',
       category: 'Office',
       description: 'Productive workspace with natural lighting'
     },
     {
       id: 6,
-      url: 'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1200&auto=format&fit=crop',
+      url: 'https://plus.unsplash.com/premium_photo-1682377521625-c656fc1ff3e1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHZpbGxhfGVufDB8fDB8fHww',
       title: 'Garden & Landscape',
       category: 'Garden',
       description: 'Beautifully landscaped gardens with outdoor seating'

@@ -69,7 +69,7 @@ const Credibility = () => {
       role: 'Property Investor',
       quote: 'Their market insights helped me make profitable investment decisions. Their attention to detail is exceptional!',
       rating: 5,
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&auto=format&fit=crop&q=80'
+      image: 'https://plus.unsplash.com/premium_photo-1770544831101-850f40068ced?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bWFsZSUyMGZhY2VzfGVufDB8fDB8fHww'
     },
     {
       id: 3,
@@ -93,7 +93,7 @@ const Credibility = () => {
       role: 'Relocation Client',
       quote: 'Moved across states and RiveyraEstate found us the perfect neighborhood. Truly a stress-free experience.',
       rating: 5,
-      image: 'https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=150&auto=format&fit=crop&q=80'
+      image: 'https://images.unsplash.com/photo-1758611969900-70a467bac02d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGZhY2VzfGVufDB8fDB8fHww'
     }
   ];
 

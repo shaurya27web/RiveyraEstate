@@ -11,6 +11,7 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import './App.css';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import Breadcrumb from './components/common/Breadcrumb/Breadcrumb';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <CustomCursor />
         <ScrollToTop></ScrollToTop>
         <Header />
+        <Breadcrumb />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
