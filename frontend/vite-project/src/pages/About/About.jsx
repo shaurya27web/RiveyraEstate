@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaCheckCircle, FaAward, FaUsers, FaHome, FaHeart, FaShieldAlt, FaLightbulb, FaHandshake } from 'react-icons/fa';
 import './About.css';
+import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
 const About = () => {
   const values = [
@@ -42,6 +43,7 @@ const About = () => {
   ];
 
   return (
+    
     <div className="about-page">
       {/* Hero Section */}
       <section className="about-hero" data-aos="fade-up">

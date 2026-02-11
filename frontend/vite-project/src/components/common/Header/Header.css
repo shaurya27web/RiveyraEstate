@@ -17,6 +17,7 @@
   max-width: 1400px; /* Wider container for better spacing */
   margin: 0 auto;
   padding: 0 3rem; /* Increased side padding */
+  padding-top:0 !important
 }
 
 .header-content {

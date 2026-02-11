@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import PropertyCard from '../../components/common/property/PropertyCard/PropertyCard';
-import { 
-  FaFilter, FaSortAmountDown, FaSortAmountUp, 
-  FaMapMarkerAlt, FaBed, FaBath 
-} from 'react-icons/fa';
+import { FaHome, FaBuilding, FaCity } from 'react-icons/fa';
+import { MdApartment, MdCottage } from 'react-icons/md';
+import { GiVillage } from 'react-icons/gi';
 import './Properties.css';
 
 const Properties = () => {
@@ -18,7 +17,8 @@ const Properties = () => {
       area: 3200,
       image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&auto=format&fit=crop',
       type: 'Villa',
-      featured: true
+      featured: true,
+      tags: ['Ocean View', 'Pool', 'Garage']
     },
     {
       id: 2,
@@ -30,7 +30,8 @@ const Properties = () => {
       area: 1200,
       image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop',
       type: 'Apartment',
-      featured: false
+      featured: false,
+      tags: ['City View', 'Gym', 'Concierge']
     },
     {
       id: 3,
@@ -42,7 +43,8 @@ const Properties = () => {
       area: 2200,
       image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&auto=format&fit=crop',
       type: 'House',
-      featured: true
+      featured: true,
+      tags: ['Garden', 'Garage', 'Pet Friendly']
     },
     {
       id: 4,
@@ -54,7 +56,8 @@ const Properties = () => {
       area: 900,
       image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop',
       type: 'Studio',
-      featured: false
+      featured: false,
+      tags: ['Loft', 'Arts District', 'Modern']
     },
     {
       id: 5,
@@ -66,7 +69,8 @@ const Properties = () => {
       area: 2800,
       image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop',
       type: 'Penthouse',
-      featured: true
+      featured: true,
+      tags: ['Rooftop', 'Panoramic', 'Luxury']
     },
     {
       id: 6,
@@ -78,163 +82,119 @@ const Properties = () => {
       area: 1100,
       image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&auto=format&fit=crop',
       type: 'Cottage',
-      featured: false
+      featured: false,
+      tags: ['Mountain', 'Fireplace', 'Secluded']
     },
   ]);
 
-  const [filters, setFilters] = useState({
-    type: 'all',
-    beds: 'any',
-    baths: 'any',
-    minPrice: '',
-    maxPrice: ''
-  });
+  const [activeFilter, setActiveFilter] = useState('all');
 
-  const [sortBy, setSortBy] = useState('featured');
-  const [showFilters, setShowFilters] = useState(false);
+  const propertyTypes = [
+    { value: 'all', label: 'All Properties', icon: <FaHome /> },
+    { value: 'house', label: 'Houses', icon: <FaHome /> },
+    { value: 'apartment', label: 'Apartments', icon: <MdApartment /> },
+    { value: 'villa', label: 'Villas', icon: <GiVillage /> },
+    { value: 'studio', label: 'Studios', icon: <FaBuilding /> },
+    { value: 'penthouse', label: 'Penthouses', icon: <FaCity /> },
+    { value: 'cottage', label: 'Cottages', icon: <MdCottage /> },
+  ];
 
-  const propertyTypes = ['All', 'House', 'Apartment', 'Villa', 'Studio', 'Penthouse', 'Cottage'];
-  const bedOptions = ['Any', '1', '2', '3', '4+'];
-  const bathOptions = ['Any', '1', '2', '3', '4+'];
+  const propertyStats = [
+    { number: '250+', label: 'Properties' },
+    { number: '98%', label: 'Satisfaction' },
+    { number: '24/7', label: 'Support' },
+    { number: '15+', label: 'Cities' }
+  ];
+
+  // Filter properties based on active filter
+  const filteredProperties = activeFilter === 'all' 
+    ? properties 
+    : properties.filter(property => property.type.toLowerCase() === activeFilter.toLowerCase());
 
   return (
     <div className="properties-page">
+      {/* Hero Section */}
       <section className="properties-hero">
         <div className="container">
-          <h1 className="page-title">Browse Properties</h1>
-          <p className="page-subtitle">
-            Discover your perfect home from our curated collection
-          </p>
+          <div className="hero-content" data-aos="fade-up">
+            <h1 className="page-title">
+              Find Your <span className="highlight">Perfect</span> Home
+            </h1>
+            <p className="page-subtitle">
+              Discover premium properties tailored to your lifestyle and aspirations
+            </p>
+          </div>
+          
+          {/* Stats Banner */}
+          <div className="stats-banner" data-aos="fade-up" data-aos-delay="200">
+            {propertyStats.map((stat, index) => (
+              <div className="stat-item" key={index}>
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
+        
+        {/* Animated Background Elements */}
+        <div className="hero-shape shape-1"></div>
+        <div className="hero-shape shape-2"></div>
+        <div className="hero-shape shape-3"></div>
       </section>
 
       <div className="container">
-        <div className="properties-container">
-          <aside className={`properties-sidebar ${showFilters ? 'show' : ''}`}>
-            <div className="sidebar-header">
-              <h3><FaFilter /> Filter Properties</h3>
-              <button 
-                className="close-filters" 
-                onClick={() => setShowFilters(false)}
+        {/* Property Type Filter Bar - Clean & Simple */}
+        <div className="property-type-filter" data-aos="fade-up">
+          <div className="filter-scroll">
+            {propertyTypes.map((type) => (
+              <button
+                key={type.value}
+                className={`type-filter-btn ${activeFilter === type.value ? 'active' : ''}`}
+                onClick={() => setActiveFilter(type.value)}
               >
-                ×
+                <span className="filter-icon">{type.icon}</span>
+                <span className="filter-label">{type.label}</span>
               </button>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            <div className="filter-section">
-              <h4>Property Type</h4>
-              <div className="filter-options">
-                {propertyTypes.map((type) => (
-                  <button
-                    key={type}
-                    className={`filter-tag ${filters.type === type.toLowerCase() ? 'active' : ''}`}
-                    onClick={() => setFilters({...filters, type: type.toLowerCase()})}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="filter-section">
-              <h4>Bedrooms</h4>
-              <div className="filter-options">
-                {bedOptions.map((beds) => (
-                  <button
-                    key={beds}
-                    className={`filter-tag ${filters.beds === beds.toLowerCase() ? 'active' : ''}`}
-                    onClick={() => setFilters({...filters, beds: beds.toLowerCase()})}
-                  >
-                    {beds}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="filter-section">
-              <h4>Bathrooms</h4>
-              <div className="filter-options">
-                {bathOptions.map((baths) => (
-                  <button
-                    key={baths}
-                    className={`filter-tag ${filters.baths === baths.toLowerCase() ? 'active' : ''}`}
-                    onClick={() => setFilters({...filters, baths: baths.toLowerCase()})}
-                  >
-                    {baths}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="filter-section">
-              <h4>Price Range</h4>
-              <div className="price-inputs">
-                <input
-                  type="number"
-                  placeholder="Min Price"
-                  className="price-input"
-                  value={filters.minPrice}
-                  onChange={(e) => setFilters({...filters, minPrice: e.target.value})}
-                />
-                <span className="price-separator">-</span>
-                <input
-                  type="number"
-                  placeholder="Max Price"
-                  className="price-input"
-                  value={filters.maxPrice}
-                  onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
-                />
-              </div>
-            </div>
-
-            <button className="btn btn-primary apply-filters-btn">
-              Apply Filters
-            </button>
-          </aside>
-
+        <div className="properties-container">
+          {/* Main Content - Full Width */}
           <main className="properties-main">
-            <div className="properties-header">
+            <div className="properties-header" data-aos="fade-up">
               <div className="results-info">
-                <span className="results-count">{properties.length} Properties Found</span>
-                <button 
-                  className="btn-filter-mobile" 
-                  onClick={() => setShowFilters(true)}
-                >
-                  <FaFilter /> Filters
-                </button>
+                <span className="results-count">{filteredProperties.length} Properties Found</span>
               </div>
               
               <div className="sort-options">
-                <label>Sort by:</label>
-                <select 
-                  className="sort-select"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <option value="featured">Featured</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="newest">Newest</option>
-                </select>
+                <span className="active-category">
+                  {activeFilter === 'all' ? 'All Properties' : propertyTypes.find(t => t.value === activeFilter)?.label}
+                </span>
               </div>
             </div>
 
             <div className="properties-grid">
-              {properties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+              {filteredProperties.map((property, index) => (
+                <PropertyCard 
+                  key={property.id} 
+                  property={property}
+                  data-aos="fade-up"
+                  data-aos-delay={index * 100}
+                />
               ))}
             </div>
 
-            <div className="pagination">
-              <button className="pagination-btn">← Previous</button>
-              <div className="pagination-numbers">
-                <button className="pagination-number active">1</button>
-                <button className="pagination-number">2</button>
-                <button className="pagination-number">3</button>
-                <span>...</span>
-                <button className="pagination-number">10</button>
-              </div>
-              <button className="pagination-btn">Next →</button>
+            {/* Pagination */}
+         
+
+            {/* Call to Action */}
+            <div className="properties-cta" data-aos="fade-up">
+              <h3>Can't Find What You're Looking For?</h3>
+              <p>Let our agents help you find the perfect property</p>
+              <button className="btn btn-primary btn-lg" href="/Agents">
+                Contact an Agent
+              </button>
             </div>
           </main>
         </div>

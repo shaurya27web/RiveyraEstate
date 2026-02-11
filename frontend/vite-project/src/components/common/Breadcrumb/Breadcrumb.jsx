@@ -28,10 +28,7 @@ const Breadcrumb = () => {
         <nav className="breadcrumb" aria-label="breadcrumb">
           <ol className="breadcrumb-list">
             <li className="breadcrumb-item">
-              <Link to="/" className="breadcrumb-link">
-                <FaHome className="breadcrumb-icon" />
-                <span>Home</span>
-              </Link>
+              
               <FaChevronRight className="separator" />
             </li>
             <li className="breadcrumb-item active">
