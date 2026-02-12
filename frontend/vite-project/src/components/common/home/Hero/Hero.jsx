@@ -136,23 +136,7 @@ const Hero = () => {
       </div>
       
       {/* Floating Properties Widget */}
-      <div className="floating-properties">
-        <div className="property-card floating-card">
-          <div className="property-badge">New</div>
-          <h4>Modern Penthouse</h4>
-          <p>$1.2M • NYC</p>
-        </div>
-        <div className="property-card floating-card">
-          <div className="property-badge">Hot</div>
-          <h4>Beach Villa</h4>
-          <p>$850K • Miami</p>
-        </div>
-        <div className="property-card floating-card">
-          <div className="property-badge">Deal</div>
-          <h4>Family Home</h4>
-          <p>$550K • Austin</p>
-        </div>
-      </div>
+    
       
       <div className="hero-background">
         <div className="shape shape-1"></div>

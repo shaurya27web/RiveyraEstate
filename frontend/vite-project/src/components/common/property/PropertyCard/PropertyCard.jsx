@@ -40,15 +40,15 @@ const PropertyCard = ({ property }) => {
         <div className="property-features">
           <div className="feature">
             <FaBed className="feature-icon" />
-            <span>{beds} {beds === 1 ? 'Bed' : 'Beds'}</span>
+            <span>{beds}</span>
           </div>
           <div className="feature">
             <FaBath className="feature-icon" />
-            <span>{baths} {baths === 1 ? 'Bath' : 'Baths'}</span>
+            <span>{baths}</span>
           </div>
           <div className="feature">
             <FaRulerCombined className="feature-icon" />
-            <span>{area.toLocaleString()} sqft</span>
+            <span>{area.toLocaleString()}</span>
           </div>
         </div>
         

@@ -4,6 +4,7 @@ import PropertyCard from '../../../property/PropertyCard/PropertyCard';
 import './FeaturedProperties.css';
 
 const FeaturedProperties = ({ properties = [] }) => {
+  // ✅ Only change: show 3 cards instead of 4
   const featuredProperties = properties.filter(p => p.featured).slice(0, 3);
 
   return (
@@ -24,7 +25,6 @@ const FeaturedProperties = ({ properties = [] }) => {
               ))}
             </div>
             
-            {/* View All Button at the bottom */}
             <div className="view-all-container">
               <Link to="/properties" className="btn btn-primary view-all-btn">
                 View All Properties

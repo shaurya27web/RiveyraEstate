@@ -10,7 +10,8 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="footer-content">
-          <div className="footer-section">
+          {/* Left Section - Logo, Description, Social */}
+          <div className="footer-section brand-section">
             <div className="footer-logo">
               <span className="logo-icon">🏠</span>
               <span className="logo-text">Riveyra<span className="logo-highlight">Estate</span></span>
@@ -28,7 +29,8 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="footer-section">
+          {/* Center Left - Quick Links */}
+          <div className="footer-section links-section">
             <h3 className="footer-heading">Quick Links</h3>
             <ul className="footer-links">
               <li><Link to="/properties">Buy Property</Link></li>
@@ -39,12 +41,13 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="footer-section">
+          {/* Center Right - Contact Info */}
+          <div className="footer-section contact-section">
             <h3 className="footer-heading">Contact Info</h3>
             <ul className="contact-info">
               <li>
                 <FaMapMarkerAlt className="contact-icon" />
-                <span>UPSIDC,Kanpur</span>
+                <span>UPSIDC, Kanpur</span>
               </li>
               <li>
                 <FaPhone className="contact-icon" />
@@ -57,7 +60,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="footer-section">
+          {/* Right Section - Newsletter */}
+          <div className="footer-section newsletter-section">
             <h3 className="footer-heading">Newsletter</h3>
             <p className="newsletter-text">
               Subscribe to get updates on new properties
@@ -69,7 +73,7 @@ const Footer = () => {
                 className="newsletter-input"
                 required
               />
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary newsletter-btn">
                 Subscribe
               </button>
             </form>
@@ -77,7 +81,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} RiveyraEstate</p>
+          <p>&copy; {currentYear} RiveyraEstate. All rights reserved.</p>
           <div className="footer-bottom-links">
             <Link to="/privacy">Privacy Policy</Link>
             <Link to="/terms">Terms of Service</Link>

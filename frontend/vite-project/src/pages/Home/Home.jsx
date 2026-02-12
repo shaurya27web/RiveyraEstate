@@ -3,7 +3,9 @@ import Hero from '../../components/common/home/Hero/Hero';
 import FeaturedProperties from '../../components/common/home/Hero/FeaturedProperties/FeaturedProperties';
 import PhotoGallery from '../../components/common/home/PhotoGallery/PhotoGallery';
 import Credibility from '../../components/common/home/Credibility/Credibility';
-import { FaBuilding, FaHome, FaCity, FaUmbrellaBeach } from 'react-icons/fa';
+import { FaBuilding, FaHome, FaCity, FaUmbrellaBeach, FaShieldAlt,     // No Hidden Fees
+  FaHandshake,     
+  FaHeadset   } from 'react-icons/fa';
 import './Home.css';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
@@ -101,7 +103,7 @@ const Home = () => {
       <FeaturedProperties properties={properties} />
       <PhotoGallery />
       <Credibility/>
-   <section className="section cta-section" data-aos="fade-up" data-aos-duration="800">
+<section className="section cta-section" data-aos="fade-up" data-aos-duration="800">
   <div className="container">
     <div className="cta-content">
       <div className="cta-badge" data-aos="zoom-in" data-aos-delay="200">
@@ -113,8 +115,7 @@ const Home = () => {
       </h2>
       
       <p className="cta-text" data-aos="fade-up" data-aos-delay="400">
-        Join thousands of satisfied customers who found their perfect home with us. 
-        Get started today with our expert agents.
+        Join thousands of satisfied customers who found their perfect home with us.
       </p>
       
       <div className="cta-buttons" data-aos="fade-up" data-aos-delay="500">
@@ -129,27 +130,6 @@ const Home = () => {
           </svg>
           Contact Agent
         </button>
-      </div>
-      
-      <div className="cta-features" data-aos="fade-up" data-aos-delay="600">
-        <div className="feature-item" data-aos="zoom-in" data-aos-delay="700">
-          <div className="feature-icon-wrapper">
-            <div className="feature-icon">✓</div>
-          </div>
-          <span>No Hidden Fees</span>
-        </div>
-        <div className="feature-item" data-aos="zoom-in" data-aos-delay="750">
-          <div className="feature-icon-wrapper">
-            <div className="feature-icon">✓</div>
-          </div>
-          <span>Free Consultation</span>
-        </div>
-        <div className="feature-item" data-aos="zoom-in" data-aos-delay="800">
-          <div className="feature-icon-wrapper">
-            <div className="feature-icon">✓</div>
-          </div>
-          <span>24/7 Support</span>
-        </div>
       </div>
     </div>
   </div>

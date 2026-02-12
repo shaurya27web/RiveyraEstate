@@ -27,13 +27,8 @@ const Breadcrumb = () => {
       <div className="container">
         <nav className="breadcrumb" aria-label="breadcrumb">
           <ol className="breadcrumb-list">
-            <li className="breadcrumb-item">
-              
-              <FaChevronRight className="separator" />
-            </li>
-            <li className="breadcrumb-item active">
-              <span className="current-page">{currentTitle}</span>
-            </li>
+            
+           
           </ol>
           
           {/* Page Title Display */}

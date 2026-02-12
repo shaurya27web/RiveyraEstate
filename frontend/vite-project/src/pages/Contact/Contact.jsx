@@ -51,8 +51,7 @@ const Contact = () => {
       title: 'Our Location',
       details: ["UPSIDC,Kanpur"],
       color: '#0d9488',
-      link: 'https://maps.google.com',
-      linkText: 'View on Map',
+      
       delay: '0s'
     },
     {
@@ -60,8 +59,6 @@ const Contact = () => {
       title: 'Phone Number',
       details: ['+91 87867374844', '+91 9876543210'],
       color: '#1e40af',
-      link: 'tel:87867374844',
-      linkText: 'Call Now',
       delay: '0.1s'
     },
     {
@@ -69,8 +66,6 @@ const Contact = () => {
       title: 'Email Address',
       details: ['hello@riveyra.com', 'support@riveyra.com'],
       color: '#f59e0b',
-      link: 'mailto:hello@riveyra.com',
-      linkText: 'Send Email',
       delay: '0.2s'
     },
     {
@@ -78,8 +73,6 @@ const Contact = () => {
       title: 'Working Hours',
       details: ['Mon-Fri: 9am - 6pm', 'Saturday: 10am - 4pm'],
       color: '#8b5cf6',
-      link: '#',
-      linkText: 'Book Appointment',
       delay: '0.3s'
     }
   ];
@@ -178,19 +171,21 @@ const Contact = () => {
               </div>
             </div>
             
-            <div className="hero-image">
-              <div className="floating-card">
-                <div className="card-header">
-                  <FaUser />
-                  <span>Live Support Available</span>
-                </div>
-                <h3>Need Immediate Help?</h3>
-                <p>Chat with our experts now</p>
-                <button className="btn btn-primary">
-                  <FaWhatsapp /> Start Chat
-                </button>
-              </div>
-            </div>
+          <div className="hero-image">
+  <div className="floating-card">
+    <div className="card-header">
+      <div className="header-icon-wrapper">
+        <FaUser />
+      </div>
+      <span>Live Support Available</span>
+    </div>
+    <h3>Need Help?</h3>
+    <p>Chat with our experts now</p>
+    <button className="btn btn-primary floating-btn">
+      <FaWhatsapp className="btn-whatsapp-icon" /> Start Chat
+    </button>
+  </div>
+</div>
           </div>
         </div>
         
@@ -236,7 +231,7 @@ const Contact = () => {
                     </div>
                     <a href={info.link} className="card-link">
                       {info.linkText}
-                      <FaArrowRight />
+                      
                     </a>
                   </div>
                 </div>
@@ -244,26 +239,7 @@ const Contact = () => {
             </div>
 
             {/* Social Media Section */}
-            <div className="social-media-section">
-              <h3 className="social-title">Follow Us</h3>
-              <p className="social-subtitle">
-                Stay updated with the latest properties and news
-              </p>
-              <div className="social-icons">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.url}
-                    className="social-icon"
-                    style={{ '--social-color': social.color }}
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                    <span className="social-label">{social.label}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
+          
           </div>
 
           {/* Contact Form Section */}
