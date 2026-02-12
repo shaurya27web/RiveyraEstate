@@ -4,8 +4,8 @@ import PropertyCard from '../../../property/PropertyCard/PropertyCard';
 import './FeaturedProperties.css';
 
 const FeaturedProperties = ({ properties = [] }) => {
-  // ✅ Only change: show 3 cards instead of 4
-  const featuredProperties = properties.filter(p => p.featured).slice(0, 3);
+  
+  const featuredProperties = properties.filter(p => p.featured).slice(0, 2);
 
   return (
     <section className="section featured-properties">

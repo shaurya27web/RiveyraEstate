@@ -7,6 +7,9 @@
   text-align: center;
   margin-bottom: 3rem;
 }
+.section-title{
+  padding-top: -2rem;
+}
 
 .view-all-link {
   display: inline-block;
