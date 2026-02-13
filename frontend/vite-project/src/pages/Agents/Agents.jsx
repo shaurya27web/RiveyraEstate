@@ -13,11 +13,7 @@ import './Agents.css';
 
 const Agents = () => {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
-  const [visibleAgents, setVisibleAgents] = useState({});
-  const [agentSalesCounters, setAgentSalesCounters] = useState({});
   const statsRef = useRef(null);
-  const agentRefs = useRef([]);
-  const animationFrameRefs = useRef({});
 
   const agents = [
     {
@@ -30,7 +26,7 @@ const Agents = () => {
       email: 'sarah@riveryra.com',
       rating: 4.9,
       totalSales: 245,
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://images.unsplash.com/photo-1624395213043-fa2e123b2656?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D',
       specialties: ['Luxury Homes', 'Penthouse', 'Commercial']
     },
     {
@@ -154,71 +150,6 @@ const Agents = () => {
     };
   }, [isStatsVisible]);
 
-  // Initialize counters for each agent
-  useEffect(() => {
-    const initialCounters = {};
-    agents.forEach(agent => {
-      initialCounters[agent.id] = 0;
-    });
-    setAgentSalesCounters(initialCounters);
-  }, [agents]);
-
-  // Smooth counter animation for agent sales - FIXED
-  useEffect(() => {
-    agents.forEach(agent => {
-      // Only start if visible and not already at target
-      if (visibleAgents[agent.id] && agentSalesCounters[agent.id] < agent.totalSales) {
-        const target = agent.totalSales;
-        const duration = 1500;
-        const startTime = performance.now();
-        const startValue = agentSalesCounters[agent.id];
-
-        const animateCounter = (timestamp) => {
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          
-          // Easing function for smooth animation
-          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-          const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
-          
-          setAgentSalesCounters(prev => ({
-            ...prev,
-            [agent.id]: Math.min(currentValue, target)
-          }));
-
-          if (progress < 1) {
-            animationFrameRefs.current[agent.id] = requestAnimationFrame(animateCounter);
-          }
-        };
-
-        // Cancel any existing animation for this agent
-        if (animationFrameRefs.current[agent.id]) {
-          cancelAnimationFrame(animationFrameRefs.current[agent.id]);
-        }
-
-        animationFrameRefs.current[agent.id] = requestAnimationFrame(animateCounter);
-      }
-    });
-
-    // Cleanup function
-    return () => {
-      agents.forEach(agent => {
-        if (animationFrameRefs.current[agent.id]) {
-          cancelAnimationFrame(animationFrameRefs.current[agent.id]);
-        }
-      });
-    };
-  }, [visibleAgents, agents]);
-
-  // Initialize visibleAgents state
-  useEffect(() => {
-    const initialVisibleState = {};
-    agents.forEach(agent => {
-      initialVisibleState[agent.id] = false;
-    });
-    setVisibleAgents(initialVisibleState);
-  }, [agents]);
-
   // Intersection Observer for stats section
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -247,44 +178,6 @@ const Agents = () => {
     };
   }, []);
 
-  // Intersection Observer for agent cards - OPTIMIZED
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const agentId = entry.target.dataset.agentId;
-            setVisibleAgents(prev => {
-              // Only update if not already visible
-              if (prev[agentId]) return prev;
-              return {
-                ...prev,
-                [agentId]: true
-              };
-            });
-            // Unobserve after marking as visible
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.1, // Lower threshold for faster triggering
-        rootMargin: '50px' // Start animation slightly before card comes into view
-      }
-    );
-
-    // Observe all agent cards
-    agentRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      agentRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-    };
-  }, [agents]);
-
   // Format number with commas
   const formatNumber = (num) => {
     if (!num && num !== 0) return '0';
@@ -309,14 +202,16 @@ const Agents = () => {
       label: 'Expert Agents', 
       suffix: '+',
       prefix: '',
-      isVisible: isStatsVisible 
+      isVisible: isStatsVisible,
+      format: null
     },
     { 
       number: statsCounters.clients, 
       label: 'Happy Clients', 
       suffix: '+',
       prefix: '',
-      isVisible: isStatsVisible 
+      isVisible: isStatsVisible,
+      format: null
     },
     { 
       number: statsCounters.propertySold, 
@@ -331,15 +226,17 @@ const Agents = () => {
       label: 'Satisfaction Rate', 
       suffix: '%',
       prefix: '',
-      isVisible: isStatsVisible 
+      isVisible: isStatsVisible,
+      format: null
     }
   ];
 
   return (
     <div className="agents-page">
-      
+      {/* Hero Section with Stats Counters */}
+     
 
-      {/* Agents Grid with Sales Counters */}
+      {/* Agents Grid - WITHOUT SALES COUNTER */}
       <section className="agents-grid-section">
         <div className="container">
           <div className="section-header" data-aos="fade-up">
@@ -348,110 +245,95 @@ const Agents = () => {
           </div>
 
           <div className="agents-grid">
-            {agents.map((agent, index) => {
-              const salesCount = agentSalesCounters[agent.id] ;
-              
-              return (
-                <div 
-                  className="agent-card" 
-                  key={agent.id}
-                  data-aos="fade-up" 
-                  data-aos-delay={index * 100}
-                  data-agent-id={agent.id}
-                  ref={el => agentRefs.current[index] = el}
-                >
-                  <div className="agent-card-inner">
-                    {/* Agent Image & Badge */}
-                    <div className="agent-image-container">
-                      <img src={agent.image} alt={agent.name} className="agent-image" />
-                      <div className="experience-badge">
-                        {agent.experience}
+            {agents.map((agent, index) => (
+              <div 
+                className="agent-card" 
+                key={agent.id}
+                data-aos="fade-up" 
+                data-aos-delay={index * 100}
+              >
+                <div className="agent-card-inner">
+                  {/* Agent Image & Badge */}
+                  <div className="agent-image-container">
+                    <img src={agent.image} alt={agent.name} className="agent-image" />
+                    <div className="experience-badge">
+                      {agent.experience}
+                    </div>
+                    <div className="agent-status"></div>
+                  </div>
+
+                  {/* Agent Info */}
+                  <div className="agent-info">
+                    <div className="agent-header">
+                      <h3 className="agent-name">{agent.name}</h3>
+                      <div className="agent-rating">
+                        <FaStar className="star-icon" />
+                        <span className="rating-number">{agent.rating}</span>
                       </div>
-                      <div className="agent-status"></div>
+                    </div>
+                    
+                    <p className="agent-title">{agent.title}</p>
+                    
+                    <div className="agent-details">
+                      <div className="detail-item">
+                        <FaMapMarkerAlt className="detail-icon" />
+                        <span>{agent.location}</span>
+                      </div>
+                      {/* SALES BADGE REMOVED COMPLETELY */}
                     </div>
 
-                    {/* Agent Info */}
-                    <div className="agent-info">
-                      <div className="agent-header">
-                        <h3 className="agent-name">{agent.name}</h3>
-                        <div className="agent-rating">
-                          <FaStar className="star-icon" />
-                          <span className="rating-number">{agent.rating}</span>
-                        </div>
-                      </div>
-                      
-                      <p className="agent-title">{agent.title}</p>
-                      
-                      <div className="agent-details">
-                        <div className="detail-item">
-                          <FaMapMarkerAlt className="detail-icon" />
-                          <span>{agent.location}</span>
-                        </div>
-                        <div className="detail-item">
-                          <div className="sales-badge">
-                            <span className="sales-count">
-                              {formatNumber(salesCount)}+
-                            </span>
-                            <span className="sales-label">Sales</span>
-                          </div>
-                        </div>
-                      </div>
+                    {/* Specialties */}
+                    <div className="agent-specialties">
+                      {agent.specialties.map((specialty, idx) => (
+                        <span className="specialty-tag" key={idx}>{specialty}</span>
+                      ))}
+                    </div>
 
-                      {/* Specialties */}
-                      <div className="agent-specialties">
-                        {agent.specialties.map((specialty, idx) => (
-                          <span className="specialty-tag" key={idx}>{specialty}</span>
-                        ))}
+                    {/* Contact Info */}
+                    <div className="agent-contact">
+                      <div className="contact-item">
+                        <FaPhone className="contact-icon" />
+                        <span>{agent.phone}</span>
                       </div>
+                      <div className="contact-item">
+                        <FaEnvelope className="contact-icon" />
+                        <span>{agent.email}</span>
+                      </div>
+                    </div>
 
-                      {/* Contact Info */}
-                      <div className="agent-contact">
-                        <div className="contact-item">
-                          <FaPhone className="contact-icon" />
-                          <span>{agent.phone}</span>
-                        </div>
-                        <div className="contact-item">
-                          <FaEnvelope className="contact-icon" />
-                          <span>{agent.email}</span>
-                        </div>
-                      </div>
+                    {/* Action Buttons */}
+                    <div className="agent-actions">
+                      <button className="btn btn-primary">
+                        View Profile
+                      </button>
+                      <button className="btn btn-secondary">
+                        Contact
+                      </button>
+                    </div>
 
-                      {/* Action Buttons */}
-                      <div className="agent-actions">
-                        <button className="btn btn-primary">
-                          View Profile
-                        </button>
-                        <button className="btn btn-secondary">
-                          Contact
-                        </button>
-                      </div>
-
-                      {/* Social Links */}
-                      <div className="agent-social">
-                        <a href="#" className="social-link">
-                          <FaFacebook />
-                        </a>
-                        <a href="#" className="social-link">
-                          <FaTwitter />
-                        </a>
-                        <a href="#" className="social-link">
-                          <FaInstagram />
-                        </a>
-                        <a href="#" className="social-link">
-                          <FaLinkedin />
-                        </a>
-                      </div>
+                    {/* Social Links */}
+                    <div className="agent-social">
+                      <a href="#" className="social-link">
+                        <FaFacebook />
+                      </a>
+                      <a href="#" className="social-link">
+                        <FaTwitter />
+                      </a>
+                      <a href="#" className="social-link">
+                        <FaInstagram />
+                      </a>
+                      <a href="#" className="social-link">
+                        <FaLinkedin />
+                      </a>
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
-{/* Hero Section with Stats Counters */}
-      <section className="agents-hero" data-aos="fade-up">
+ <section className="agents-hero" data-aos="fade-up">
         <div className="container">
           <div className="agents-hero-content">
             <h1 className="agents-title" data-aos="fade-up" data-aos-delay="200">

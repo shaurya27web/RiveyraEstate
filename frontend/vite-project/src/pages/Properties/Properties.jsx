@@ -162,6 +162,7 @@ const Properties = () => {
             <h1 className="page-title">
               Find Your <span className="highlight">Perfect</span> Home
             </h1>
+
           </div>
           
           {/* Stats Banner with Counter - Add ref for intersection observer */}
