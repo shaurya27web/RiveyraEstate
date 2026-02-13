@@ -9,14 +9,15 @@ import {
   FaInstagram, 
   FaLinkedin 
 } from 'react-icons/fa';
-import useCounter from '../../hooks/useCounter';
 import './Agents.css';
 
 const Agents = () => {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const [visibleAgents, setVisibleAgents] = useState({});
+  const [agentSalesCounters, setAgentSalesCounters] = useState({});
   const statsRef = useRef(null);
   const agentRefs = useRef([]);
+  const animationFrameRefs = useRef({});
 
   const agents = [
     {
@@ -99,11 +100,115 @@ const Agents = () => {
     }
   ];
 
-  // Stats counters - only start when stats section is visible
-  const expertsCount = useCounter(isStatsVisible ? 50 : 0, 2000);
-  const clientsCount = useCounter(isStatsVisible ? 10000 : 0, 2500);
-  const propertySoldCount = useCounter(isStatsVisible ? 5000000000 : 0, 2500);
-  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
+  // Stats counters - using requestAnimationFrame for smooth animation
+  const [statsCounters, setStatsCounters] = useState({
+    experts: 0,
+    clients: 0,
+    propertySold: 0,
+    satisfaction: 0
+  });
+
+  // Stats counter animation
+  useEffect(() => {
+    if (!isStatsVisible) return;
+
+    const targets = {
+      experts: 50,
+      clients: 10000,
+      propertySold: 5000000000,
+      satisfaction: 98
+    };
+
+    const durations = {
+      experts: 2000,
+      clients: 2500,
+      propertySold: 2500,
+      satisfaction: 2000
+    };
+
+    const startTimes = {};
+    const animationFrame = {};
+
+    Object.keys(targets).forEach((key) => {
+      const animate = (timestamp) => {
+        if (!startTimes[key]) startTimes[key] = timestamp;
+        const progress = Math.min((timestamp - startTimes[key]) / durations[key], 1);
+        
+        setStatsCounters(prev => ({
+          ...prev,
+          [key]: Math.floor(progress * targets[key])
+        }));
+
+        if (progress < 1) {
+          animationFrame[key] = requestAnimationFrame(animate);
+        }
+      };
+
+      animationFrame[key] = requestAnimationFrame(animate);
+    });
+
+    return () => {
+      Object.values(animationFrame).forEach(frame => {
+        if (frame) cancelAnimationFrame(frame);
+      });
+    };
+  }, [isStatsVisible]);
+
+  // Initialize counters for each agent
+  useEffect(() => {
+    const initialCounters = {};
+    agents.forEach(agent => {
+      initialCounters[agent.id] = 0;
+    });
+    setAgentSalesCounters(initialCounters);
+  }, [agents]);
+
+  // Smooth counter animation for agent sales - FIXED
+  useEffect(() => {
+    agents.forEach(agent => {
+      // Only start if visible and not already at target
+      if (visibleAgents[agent.id] && agentSalesCounters[agent.id] < agent.totalSales) {
+        const target = agent.totalSales;
+        const duration = 1500;
+        const startTime = performance.now();
+        const startValue = agentSalesCounters[agent.id];
+
+        const animateCounter = (timestamp) => {
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function for smooth animation
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
+          
+          setAgentSalesCounters(prev => ({
+            ...prev,
+            [agent.id]: Math.min(currentValue, target)
+          }));
+
+          if (progress < 1) {
+            animationFrameRefs.current[agent.id] = requestAnimationFrame(animateCounter);
+          }
+        };
+
+        // Cancel any existing animation for this agent
+        if (animationFrameRefs.current[agent.id]) {
+          cancelAnimationFrame(animationFrameRefs.current[agent.id]);
+        }
+
+        animationFrameRefs.current[agent.id] = requestAnimationFrame(animateCounter);
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      agents.forEach(agent => {
+        if (animationFrameRefs.current[agent.id]) {
+          cancelAnimationFrame(animationFrameRefs.current[agent.id]);
+        }
+      });
+    };
+  }, [visibleAgents, agents]);
 
   // Initialize visibleAgents state
   useEffect(() => {
@@ -142,27 +247,33 @@ const Agents = () => {
     };
   }, []);
 
-  // Intersection Observer for agent cards
+  // Intersection Observer for agent cards - OPTIMIZED
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const agentId = entry.target.dataset.agentId;
-            setVisibleAgents(prev => ({
-              ...prev,
-              [agentId]: true
-            }));
+            setVisibleAgents(prev => {
+              // Only update if not already visible
+              if (prev[agentId]) return prev;
+              return {
+                ...prev,
+                [agentId]: true
+              };
+            });
+            // Unobserve after marking as visible
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.2,
-        rootMargin: '0px'
+        threshold: 0.1, // Lower threshold for faster triggering
+        rootMargin: '50px' // Start animation slightly before card comes into view
       }
     );
 
+    // Observe all agent cards
     agentRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
@@ -176,11 +287,13 @@ const Agents = () => {
 
   // Format number with commas
   const formatNumber = (num) => {
+    if (!num && num !== 0) return '0';
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   // Format currency in billions/millions
   const formatCurrency = (num) => {
+    if (!num && num !== 0) return '0';
     if (num >= 1000000000) {
       return (num / 1000000000).toFixed(1) + 'B+';
     }
@@ -192,21 +305,21 @@ const Agents = () => {
 
   const stats = [
     { 
-      number: expertsCount, 
+      number: statsCounters.experts, 
       label: 'Expert Agents', 
       suffix: '+',
       prefix: '',
       isVisible: isStatsVisible 
     },
     { 
-      number: clientsCount, 
+      number: statsCounters.clients, 
       label: 'Happy Clients', 
       suffix: '+',
       prefix: '',
       isVisible: isStatsVisible 
     },
     { 
-      number: propertySoldCount, 
+      number: statsCounters.propertySold, 
       label: 'Property Sold', 
       suffix: '+',
       prefix: '$',
@@ -214,7 +327,7 @@ const Agents = () => {
       format: formatCurrency
     },
     { 
-      number: satisfactionCount, 
+      number: statsCounters.satisfaction, 
       label: 'Satisfaction Rate', 
       suffix: '%',
       prefix: '',
@@ -224,8 +337,7 @@ const Agents = () => {
 
   return (
     <div className="agents-page">
-      {/* Hero Section with Stats Counters */}
-
+      
 
       {/* Agents Grid with Sales Counters */}
       <section className="agents-grid-section">
@@ -237,12 +349,8 @@ const Agents = () => {
 
           <div className="agents-grid">
             {agents.map((agent, index) => {
-              // Counter for total sales - only start when agent card is visible
-              const animatedSales = useCounter(
-                visibleAgents[agent.id] ? agent.totalSales : 0, 
-                1500
-              );
-
+              const salesCount = agentSalesCounters[agent.id] ;
+              
               return (
                 <div 
                   className="agent-card" 
@@ -282,7 +390,7 @@ const Agents = () => {
                         <div className="detail-item">
                           <div className="sales-badge">
                             <span className="sales-count">
-                              {visibleAgents[agent.id] ? formatNumber(animatedSales) : '0'}+
+                              {formatNumber(salesCount)}+
                             </span>
                             <span className="sales-label">Sales</span>
                           </div>
@@ -342,6 +450,7 @@ const Agents = () => {
         </div>
       </section>
 
+{/* Hero Section with Stats Counters */}
       <section className="agents-hero" data-aos="fade-up">
         <div className="container">
           <div className="agents-hero-content">
@@ -362,11 +471,9 @@ const Agents = () => {
                 <div className="stat-item" key={index}>
                   <div className="stat-number">
                     {stat.prefix}
-                    {stat.isVisible 
-                      ? stat.format 
-                        ? stat.format(stat.number)
-                        : formatNumber(stat.number)
-                      : '0'}
+                    {stat.format 
+                      ? stat.format(stat.number)
+                      : formatNumber(stat.number)}
                     {stat.suffix}
                   </div>
                   <div className="stat-label">{stat.label}</div>
