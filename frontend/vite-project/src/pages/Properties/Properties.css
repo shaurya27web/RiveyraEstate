@@ -1,11 +1,11 @@
-/* Properties Page Styles - Enhanced with RiveyraEstate Theme */
+
 .properties-page {
   padding-bottom: 4rem;
   overflow-x: hidden;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-/* Hero Section with Gradient Animation */
+
 .properties-hero {
   background: linear-gradient(135deg, 
     rgba(13, 148, 136, 0.98) 0%, 
@@ -120,7 +120,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   font-weight: 800;
   color: white !important;
   line-height: 1;
-  margin-bottom: 0.75rem; /* Space between number and label */
+  margin-bottom: 0.75rem;
   background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.9));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -155,24 +155,24 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   }
 }
 
-/* Stat Labels - Single Theme Color (Teal) */
+
 .stat-label {
   font-size: 1rem;
   font-weight: 900 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 0.35rem 0; /* Adjusted padding */
-  margin-top: 0.25rem; /* Space from number */
+  padding: 0.35rem 0; 
+  margin-top: 0.25rem; 
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
   background: transparent;
   border-bottom: 4px solid;
-  color: #dce6e5 !important; /* Single theme color - Teal */
+  color: #dce6e5 !important; 
   border-bottom-color: rgba(219, 230, 229, 0.25);
 }
 
-/* Remove individual colors - keep all same teal */
+
 .stat-item:nth-child(1) .stat-label,
 .stat-item:nth-child(2) .stat-label,
 .stat-item:nth-child(3) .stat-label,
@@ -191,7 +191,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   text-shadow: 0 2px 5px rgba(13, 148, 136, 0.15);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 992px) {
   .stats-banner {
     grid-template-columns: repeat(2, 1fr);
@@ -205,7 +205,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   
   .stat-number {
     font-size: 2.25rem;
-    color:#0d9488 !important;
+    color:#dee3e3 !important;
   }
   
   .stat-label {
@@ -236,7 +236,6 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   }
 }
 
-/* Hero Shapes Animation - Enhanced */
 .hero-shape {
   position: absolute;
   border-radius: 50%;
@@ -287,7 +286,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   }
 }
 
-/* Property Type Filter Bar - Modern & Clean */
+
 .property-type-filter {
   background: white;
   border-radius: 20px;
@@ -384,7 +383,6 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   width: 100%;
 }
 
-/* Properties Header - Enhanced */
 .properties-header {
   display: flex;
   justify-content: space-between;
@@ -443,7 +441,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   gap: 0.75rem;
 }
 
-/* Properties Grid - Enhanced Spacing */
+
 .properties-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -451,7 +449,6 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   margin-bottom: 3rem;
 }
 
-/* CTA Section - Redesigned with Theme Colors */
 .properties-cta {
   text-align: center;
   padding: 4rem 2rem;
@@ -526,7 +523,7 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   box-shadow: 0 20px 40px rgba(13, 148, 136, 0.4);
 }
 
-/* Pagination - Clean Design */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -585,7 +582,6 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   transform: scale(1.1);
 }
 
-/* Responsive Design - Enhanced */
 @media (max-width: 1024px) {
   .page-title {
     font-size: 3rem;
@@ -759,7 +755,6 @@ url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600&auto=fo
   }
 }
 
-/* Utility Classes */
 .container {
   max-width: 1280px;
   margin: 0 auto;

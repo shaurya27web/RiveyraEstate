@@ -92,13 +92,13 @@ const Properties = () => {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const statsRef = useRef(null);
 
-  // Counter for property stats - only start when visible
+
   const propertiesCount = useCounter(isStatsVisible ? 250 : 0, 2000);
   const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
   const supportCount = useCounter(isStatsVisible ? 24 : 0, 2000);
   const citiesCount = useCounter(isStatsVisible ? 15 : 0, 2000);
 
-  // Intersection Observer to detect when stats section is visible
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -143,19 +143,19 @@ const Properties = () => {
     { number: citiesCount, label: 'Cities', suffix: '+' }
   ];
 
-  // Format number with commas
+ 
   const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // Filter properties based on active filter
+
   const filteredProperties = activeFilter === 'all' 
     ? properties 
     : properties.filter(property => property.type.toLowerCase() === activeFilter.toLowerCase());
 
   return (
     <div className="properties-page">
-      {/* Hero Section */}
+    
       <section className="properties-hero">
         <div className="container">
           <div className="hero-content" data-aos="fade-up">
@@ -165,7 +165,7 @@ const Properties = () => {
 
           </div>
           
-          {/* Stats Banner with Counter - Add ref for intersection observer */}
+
           <div 
             className="stats-banner" 
             data-aos="fade-up" 
@@ -189,14 +189,14 @@ const Properties = () => {
           </div>
         </div>
         
-        {/* Animated Background Elements */}
+        
         <div className="hero-shape shape-1"></div>
         <div className="hero-shape shape-2"></div>
         <div className="hero-shape shape-3"></div>
       </section>
 
       <div className="container">
-        {/* Property Type Filter Bar - Clean & Simple */}
+      
         <div className="property-type-filter" data-aos="fade-up">
           <div className="filter-scroll">
             {propertyTypes.map((type) => (
@@ -213,7 +213,7 @@ const Properties = () => {
         </div>
 
         <div className="properties-container">
-          {/* Main Content - Full Width */}
+        
           <main className="properties-main">
             <div className="properties-header" data-aos="fade-up">
               <div className="results-info">
@@ -238,7 +238,7 @@ const Properties = () => {
               ))}
             </div>
 
-            {/* Call to Action */}
+            
             <div className="properties-cta" data-aos="fade-up">
               <h3>Can't Find What You're Looking For?</h3>
               <p>Let our agents help you find the perfect property</p>

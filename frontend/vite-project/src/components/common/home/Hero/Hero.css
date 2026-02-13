@@ -1,15 +1,15 @@
 /* Hero Section - Fixed Spacing */
 .hero {
   position: relative;
-  padding: 0; /* Remove top/bottom padding */
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  padding: 0;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.05) 0%, rgba(30, 64, 175, 0.02) 100%);
   overflow: hidden;
   min-height: 100vh;
   display: flex;
   align-items: center;
   z-index: 1;
-  margin-top: 0 !important; /* Force no margin */
-  padding-top: 0 !important; /* Force no padding */
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .container {
@@ -19,8 +19,8 @@
   padding: 0 2rem;
   position: relative;
   z-index: 2;
-  margin-top: 0 !important; /* Remove any top margin */
-  padding-top: 0 !important; /* Remove any top padding */
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .hero-content {
@@ -30,8 +30,8 @@
   align-items: center;
   position: relative;
   z-index: 3;
-  margin-top: 0 !important; /* Ensure no margin */
-  padding-top: 0 !important; /* Ensure no padding */
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .hero-text {
@@ -39,10 +39,9 @@
   animation: fadeInUp 1s ease;
   position: relative;
   z-index: 2;
-  margin-top: 0 !important; /* Remove margin */
+  margin-top: 0 !important;
   padding-top: 0 !important; 
-  padding-right:10px !important;
-  margin:10px 10 10 10 !important;/* Remove padding */
+  padding-right: 10px !important;
 }
 
 .hero-title {
@@ -82,17 +81,13 @@
   color: var(--text-light);
   margin-bottom: 2.5rem;
   line-height: 1.7;
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding: 0;
   animation: fadeInUp 1s ease 0.2s both;
 }
 
 .hero-stats {
   display: flex;
   gap: 3rem;
-  color:#08314c;
   margin-top: 3rem;
   animation: fadeInUp 1s ease 0.4s both;
 }
@@ -102,7 +97,6 @@
   flex-direction: column;
   opacity: 0;
   transform: translateY(20px);
-  
 }
 
 .stat.animated {
@@ -123,16 +117,54 @@
   line-height: 1;
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2);
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.stat-number::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: counterUnderline 2s ease-out forwards;
+}
+
+@keyframes counterUnderline {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .stat-label {
   font-size: 1rem !important;
-  color:#08314c !important;
+  color: var(--primary-dark) !important; /* Dark Teal from your theme */
   font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
+.stat:hover .stat-label {
+  color:#0f766e !important;
+  transform: translateY(-2px); /* Optional - keeps hover lift without color change */
+}
+/* Override the animation for stat-label */
+.stat .stat-label {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  color: #0f766e !important;
+}
+
+/* Keep the stat number animation if desired */
+.stat-number {
+  /* Keep your existing animation */
+}
 /* Floating Properties Widget */
 .floating-properties {
   position: absolute;
@@ -182,13 +214,14 @@
   transition: all 0.3s ease;
   animation: slideInRight 1s ease;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(13, 148, 136, 0.1);
   position: relative;
 }
 
 .property-card.floating-card:hover {
   transform: translateX(-10px) scale(1.05);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(13, 148, 136, 0.15);
+  border-color: rgba(13, 148, 136, 0.3);
 }
 
 .property-card.floating-card:nth-child(2) {
@@ -203,7 +236,7 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background: var(--accent-color);
+  background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-sm);
@@ -211,6 +244,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
 }
 
 .property-card.floating-card h4 {
@@ -257,6 +291,7 @@
   top: -150px;
   right: -100px;
   animation-delay: 0s;
+  background: linear-gradient(45deg, var(--primary-color), transparent);
 }
 
 .shape-2 {
@@ -311,7 +346,7 @@
   height: 4px;
   background: var(--primary-color);
   border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.2;
   animation: particleFloat linear infinite;
 }
 
@@ -321,10 +356,10 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.3;
+    opacity: 0.2;
   }
   90% {
-    opacity: 0.3;
+    opacity: 0.2;
   }
   100% {
     transform: translateY(-100px) translateX(100px);
@@ -360,6 +395,11 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 4rem 0;
+  }
+  
   .hero-title {
     font-size: 2.25rem;
   }
@@ -372,6 +412,10 @@
   
   .container {
     padding: 0 1.5rem;
+  }
+  
+  .hero-subtitle {
+    padding: 0;
   }
 }
 
@@ -387,35 +431,8 @@
   .hero-title {
     font-size: 2rem;
   }
-}
-/* Add to Hero.css for counter animation effect */
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--primary-color);
-  line-height: 1;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2);
-  display: inline-block;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.stat-number::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary-color), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: counterUnderline 2s ease-out forwards;
-}
-
-@keyframes counterUnderline {
-  to {
-    transform: scaleX(1);
+  
+  .hero-content {
+    gap: 2rem;
   }
 }

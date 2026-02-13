@@ -88,7 +88,7 @@
   font-weight: 800;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2);
+  /* text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2); */
 }
 
 .agents-stats .stat-label {
@@ -676,7 +676,7 @@
 .stat-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: #0d9488!important;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
