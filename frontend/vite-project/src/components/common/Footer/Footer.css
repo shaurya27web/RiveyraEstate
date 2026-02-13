@@ -24,6 +24,7 @@
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--white);
+
 }
 
 .footer-logo .logo-icon {
@@ -33,6 +34,7 @@
 
 .footer-logo .logo-highlight {
   color: var(--accent-color);
+  color:#0d9480 !important;
 }
 
 .footer-description {
@@ -317,4 +319,7 @@
     gap: 0.75rem;
     align-items: center;
   }
+}
+.btn.btn-primary.newsletter-btn{
+  background: linear-gradient(135deg, #0d9480, #0d9480);
 }

@@ -40,7 +40,9 @@
   position: relative;
   z-index: 2;
   margin-top: 0 !important; /* Remove margin */
-  padding-top: 0 !important; /* Remove padding */
+  padding-top: 0 !important; 
+  padding-right:10px !important;
+  margin:10px 10 10 10 !important;/* Remove padding */
 }
 
 .hero-title {
@@ -90,6 +92,7 @@
 .hero-stats {
   display: flex;
   gap: 3rem;
+  color:#08314c;
   margin-top: 3rem;
   animation: fadeInUp 1s ease 0.4s both;
 }
@@ -99,6 +102,7 @@
   flex-direction: column;
   opacity: 0;
   transform: translateY(20px);
+  
 }
 
 .stat.animated {
@@ -122,9 +126,9 @@
 }
 
 .stat-label {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  font-weight: 500;
+  font-size: 1rem !important;
+  color:#08314c !important;
+  font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
 }

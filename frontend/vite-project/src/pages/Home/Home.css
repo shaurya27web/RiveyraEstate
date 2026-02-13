@@ -111,8 +111,8 @@
 /* Badge */
 .cta-badge {
   display: inline-block;
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  color: white;
+  background: linear-gradient(90deg, #0d9480, #0d9480);
+  color: rgb(246, 240, 240);
   padding: 0.6rem 1.5rem;  /* Slightly smaller */
   border-radius: 50px;
   font-size: 0.85rem;
@@ -165,7 +165,7 @@
 }
 
 .cta-highlight {
-  background: linear-gradient(90deg, #f7971e, #ffd200);
+  background: linear-gradient(90deg, #094f44, #0d9480);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -181,7 +181,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #f7971e, #ffd200);
+  background: linear-gradient(90deg, #ece8e4, #0d9480);
   border-radius: 2px;
   animation: underlineWidth 3s ease-in-out infinite;
 }

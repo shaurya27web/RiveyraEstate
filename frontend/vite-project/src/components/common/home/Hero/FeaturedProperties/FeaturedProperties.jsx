@@ -26,9 +26,7 @@ const FeaturedProperties = ({ properties = [] }) => {
             </div>
             
             <div className="view-all-container">
-              <Link to="/properties" className="btn btn-primary view-all-btn">
-                View All Properties
-              </Link>
+              
             </div>
           </>
         ) : (
