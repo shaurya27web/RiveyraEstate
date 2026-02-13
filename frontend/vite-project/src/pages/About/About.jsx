@@ -1,9 +1,23 @@
-import React from 'react';
-import { FaCheckCircle, FaAward, FaUsers, FaHome, FaHeart, FaShieldAlt, FaLightbulb, FaHandshake } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  FaCheckCircle, 
+  FaAward, 
+  FaUsers, 
+  FaHome, 
+  FaHeart, 
+  FaShieldAlt, 
+  FaLightbulb, 
+  FaHandshake 
+} from 'react-icons/fa';
+import useCounter from '../../hooks/useCounter';
 import './About.css';
-import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
 const About = () => {
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
+  const [isMilestonesVisible, setIsMilestonesVisible] = useState(false);
+  const statsRef = useRef(null);
+  const milestonesRef = useRef(null);
+
   const values = [
     {
       icon: <FaHeart />,
@@ -28,24 +42,160 @@ const About = () => {
   ];
 
   const milestones = [
-    { year: '2015', title: 'Founded', description: 'Started with a vision to revolutionize real estate' },
-    { year: '2018', title: '1000+ Clients', description: 'Reached first major milestone' },
-    { year: '2020', title: 'Expansion', description: 'Opened offices in 5 major cities' },
-    { year: '2023', title: 'Award Winner', description: 'Best Real Estate Agency 2023' },
-    { year: '2024', title: '10,000+', description: 'Successful property transactions' }
+    { year: '2015', title: 'Founded', description: 'Started with a vision to revolutionize real estate', count: 2015 },
+    { year: '2018', title: '1000+ Clients', description: 'Reached first major milestone', count: 1000 },
+    { year: '2020', title: 'Expansion', description: 'Opened offices in 5 major cities', count: 5 },
+    { year: '2023', title: 'Award Winner', description: 'Best Real Estate Agency 2023', count: 1 },
+    { year: '2024', title: '10,000+', description: 'Successful property transactions', count: 10000 }
   ];
 
+  // Team stats counters - only start when stats section is visible
+  const expertAgentsCount = useCounter(isStatsVisible ? 50 : 0, 2000);
+  const yearsExperienceCount = useCounter(isStatsVisible ? 15 : 0, 2000);
+  const propertiesListedCount = useCounter(isStatsVisible ? 500 : 0, 2000);
+  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
+
+  // Milestone counters - only start when timeline is visible
+  const foundedYear = useCounter(isMilestonesVisible ? 2015 : 0, 1500);
+  const clientsCount = useCounter(isMilestonesVisible ? 1000 : 0, 2000);
+  const citiesCount = useCounter(isMilestonesVisible ? 5 : 0, 1500);
+  const awardCount = useCounter(isMilestonesVisible ? 2023 : 0, 1500);
+  const transactionsCount = useCounter(isMilestonesVisible ? 10000 : 0, 2500);
+
+  // Intersection Observer for stats section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsStatsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: '0px'
+      }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
+
+  // Intersection Observer for milestones section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsMilestonesVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px'
+      }
+    );
+
+    if (milestonesRef.current) {
+      observer.observe(milestonesRef.current);
+    }
+
+    return () => {
+      if (milestonesRef.current) {
+        observer.unobserve(milestonesRef.current);
+      }
+    };
+  }, []);
+
+  // Format number with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const teamStats = [
-    { number: '50+', label: 'Expert Agents', icon: <FaUsers /> },
-    { number: '15+', label: 'Years Experience', icon: <FaAward /> },
-    { number: '500+', label: 'Properties Listed', icon: <FaHome /> },
-    { number: '98%', label: 'Client Satisfaction', icon: <FaHeart /> }
+    { 
+      number: expertAgentsCount, 
+      label: 'Expert Agents', 
+      icon: <FaUsers />,
+      suffix: '+',
+      isVisible: isStatsVisible 
+    },
+    { 
+      number: yearsExperienceCount, 
+      label: 'Years Experience', 
+      icon: <FaAward />,
+      suffix: '+',
+      isVisible: isStatsVisible 
+    },
+    { 
+      number: propertiesListedCount, 
+      label: 'Properties Listed', 
+      icon: <FaHome />,
+      suffix: '+',
+      isVisible: isStatsVisible 
+    },
+    { 
+      number: satisfactionCount, 
+      label: 'Client Satisfaction', 
+      icon: <FaHeart />,
+      suffix: '%',
+      isVisible: isStatsVisible 
+    }
+  ];
+
+  // Milestone data with counters
+  const milestoneStats = [
+    { 
+      year: isMilestonesVisible ? foundedYear : '0', 
+      title: 'Founded', 
+      description: 'Started with a vision to revolutionize real estate',
+      suffix: '',
+      isVisible: isMilestonesVisible
+    },
+    { 
+      year: isMilestonesVisible ? formatNumber(clientsCount) : '0', 
+      title: '1000+ Clients', 
+      description: 'Reached first major milestone',
+      suffix: '+',
+      isVisible: isMilestonesVisible
+    },
+    { 
+      year: isMilestonesVisible ? formatNumber(citiesCount) : '0', 
+      title: 'Expansion', 
+      description: 'Opened offices in 5 major cities',
+      suffix: '+',
+      isVisible: isMilestonesVisible
+    },
+    { 
+      year: isMilestonesVisible ? awardCount : '0', 
+      title: 'Award Winner', 
+      description: 'Best Real Estate Agency 2023',
+      suffix: '',
+      isVisible: isMilestonesVisible
+    },
+    { 
+      year: isMilestonesVisible ? formatNumber(transactionsCount) : '0', 
+      title: '10,000+', 
+      description: 'Successful property transactions',
+      suffix: '+',
+      isVisible: isMilestonesVisible
+    }
   ];
 
   return (
-    
     <div className="about-page">
-      {/* Hero Section */}
+      {/* Hero Section with Stats Counters */}
       <section className="about-hero" data-aos="fade-up">
         <div className="container">
           <div className="about-hero-content">
@@ -55,19 +205,26 @@ const About = () => {
                 Redefining <span className="highlight">Real Estate</span> Excellence
               </h1>
               <p className="about-subtitle" data-aos="fade-up" data-aos-delay="300">
-                At RiveryraEstate, we don't just sell properties—we create lasting relationships 
+                At RiveyraEstate, we don't just sell properties—we create lasting relationships 
                 and help you find places where memories are made.
               </p>
             </div>
             
-            <div className="about-hero-stats" data-aos="fade-up" data-aos-delay="400">
+            <div 
+              className="about-hero-stats" 
+              data-aos="fade-up" 
+              data-aos-delay="400"
+              ref={statsRef}
+            >
               {teamStats.map((stat, index) => (
                 <div className="stat-card" key={index} data-aos="zoom-in" data-aos-delay={500 + (index * 100)}>
                   <div className="stat-icon-wrapper">
                     {stat.icon}
                   </div>
                   <div className="stat-content">
-                    <div className="stat-number">{stat.number}</div>
+                    <div className="stat-number">
+                      {stat.isVisible ? stat.number : '0'}{stat.suffix}
+                    </div>
                     <div className="stat-label">{stat.label}</div>
                   </div>
                 </div>
@@ -136,8 +293,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline/Milestones */}
-      <section className="timeline-section">
+      {/* Timeline/Milestones with Counters */}
+      <section className="timeline-section" ref={milestonesRef}>
         <div className="container">
           <div className="section-header" data-aos="fade-up">
             <h2 className="section-title">Our Journey</h2>
@@ -145,7 +302,7 @@ const About = () => {
           </div>
 
           <div className="timeline">
-            {milestones.map((milestone, index) => (
+            {milestoneStats.map((milestone, index) => (
               <div 
                 className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`} 
                 key={index}
@@ -153,7 +310,9 @@ const About = () => {
                 data-aos-delay={index * 100}
               >
                 <div className="timeline-content">
-                  <div className="timeline-year">{milestone.year}</div>
+                  <div className="timeline-year">
+                    {milestone.isVisible ? milestone.year : '0'}{milestone.suffix}
+                  </div>
                   <h3 className="timeline-title">{milestone.title}</h3>
                   <p className="timeline-description">{milestone.description}</p>
                 </div>
@@ -168,7 +327,7 @@ const About = () => {
       <section className="features-section">
         <div className="container">
           <div className="section-header" data-aos="fade-up">
-            <h2 className="section-title">Why Choose RiveryraEstate?</h2>
+            <h2 className="section-title">Why Choose RiveyraEstate?</h2>
             <p className="section-subtitle">Experience the difference with our premium services</p>
           </div>
 

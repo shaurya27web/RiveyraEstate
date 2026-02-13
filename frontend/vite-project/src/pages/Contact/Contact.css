@@ -35,24 +35,36 @@
 /* Left Column - Text at extreme left */
 .hero-text {
   animation: slideInLeft 1s ease;
-  max-width: 650px;
+  max-width: 100%;
   justify-self: start;
   margin-left: 0;
   padding-left: 0;
+  grid-column: 1;
+  text-align: left;
 }
 
 .hero-subtitle {
-  display: inline-block;
+  display: block;
   color: var(--primary-color);
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 1.25rem;
-  padding: 0.6rem 1.25rem;
-  background: rgba(13, 148, 136, 0.08);
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 2rem;
+  background: rgba(13, 148, 136, 0.12);
   border-radius: 50px;
-  border: 1px solid rgba(13, 148, 136, 0.1);
+  border: 1.5px solid var(--primary-color);
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.08);
+  transition: all 0.3s ease;
+  text-align: center;
+  width: fit-content;
+}
+
+.hero-subtitle:hover {
+  background: rgba(13, 148, 136, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(13, 148, 136, 0.12);
 }
 
 .hero-title {
@@ -62,6 +74,7 @@
   color: var(--text-dark);
   font-weight: 800;
   letter-spacing: -0.02em;
+  text-align: left;
 }
 
 .hero-title .highlight {
@@ -91,6 +104,7 @@
   line-height: 1.6;
   margin-bottom: 2.25rem;
   max-width: 580px;
+  text-align: left;
 }
 
 .hero-features {

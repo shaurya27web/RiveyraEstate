@@ -789,3 +789,336 @@
   height: 70px;
   font-size: 2rem;
 }
+/* Add at the end of your PhotoGallery.css file */
+
+/* Gallery Info Stats with Counter Animation */
+.gallery-info {
+  margin-top: 4rem;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 0.9) 0%,
+    rgba(240, 249, 255, 0.9) 100%
+  );
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    var(--primary-color),
+    var(--accent-color),
+    var(--secondary-color)
+  );
+}
+
+.info-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Info Text Section */
+.info-text-wrapper {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.info-text {
+  color: var(--text-dark);
+  font-size: 1.25rem;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+  font-weight: 400;
+  padding: 2.5rem;
+  position: relative;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+  animation: fadeIn 1s ease;
+}
+
+.info-text::before {
+  content: '"';
+  position: absolute;
+  left: 1.5rem;
+  top: 1rem;
+  font-size: 4rem;
+  color: var(--primary-color);
+  opacity: 0.1;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.info-text::after {
+  content: '"';
+  position: absolute;
+  right: 1.5rem;
+  bottom: -1rem;
+  font-size: 4rem;
+  color: var(--primary-color);
+  opacity: 0.1;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Info Stats Section - Updated with Counter Animation */
+.info-stats-wrapper {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  animation: statFadeIn 0.8s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stat:nth-child(1) { animation-delay: 0.1s; }
+.stat:nth-child(2) { animation-delay: 0.3s; }
+.stat:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes statFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat:hover {
+  transform: translateY(-5px);
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 80%;
+  background: linear-gradient(to bottom, 
+    transparent,
+    var(--border-color),
+    transparent
+  );
+}
+
+.stat:last-child::before {
+  display: none;
+}
+
+.stat-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(13, 148, 136, 0.1) 0%,
+    rgba(30, 64, 175, 0.05) 100%
+  );
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  animation: statPulse 2s ease-in-out infinite;
+}
+
+.stat-circle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, 
+    var(--primary-color),
+    var(--accent-color),
+    var(--secondary-color)
+  );
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(5px);
+}
+
+@keyframes statPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  background: linear-gradient(135deg, 
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2);
+  position: relative;
+  display: inline-block;
+}
+
+.stat-number::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--primary-color), 
+    transparent
+  );
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: counterUnderline 1s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes counterUnderline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.stat-label {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .info-stats {
+    gap: 2rem;
+  }
+  
+  .stat-circle {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-stats {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 400px;
+  }
+  
+  .stat::before {
+    display: none;
+  }
+  
+  .stat::after {
+    content: '';
+    position: absolute;
+    bottom: -1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 1px;
+    background: var(--border-color);
+  }
+  
+  .stat:last-child::after {
+    display: none;
+  }
+  
+  .info-text {
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+  
+  .info-text::before,
+  .info-text::after {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-info {
+    padding: 2.5rem 1rem;
+  }
+  
+  .info-text {
+    font-size: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .stat-circle {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .stat-number {
+    font-size: 1.75rem;
+  }
+  
+  .stat-label {
+    font-size: 0.95rem;
+  }
+}
+
+/* Fullscreen mode adjustments */
+:fullscreen .gallery-info {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+:fullscreen .stat-circle {
+  width: 100px;
+  height: 100px;
+}
+
+:fullscreen .stat-number {
+  font-size: 2rem;
+}

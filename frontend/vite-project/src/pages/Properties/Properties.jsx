@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropertyCard from '../../components/common/property/PropertyCard/PropertyCard';
 import { FaHome, FaBuilding, FaCity } from 'react-icons/fa';
 import { MdApartment, MdCottage } from 'react-icons/md';
 import { GiVillage } from 'react-icons/gi';
+import useCounter from '../../hooks/useCounter';
 import './Properties.css';
 
 const Properties = () => {
@@ -88,6 +89,42 @@ const Properties = () => {
   ]);
 
   const [activeFilter, setActiveFilter] = useState('all');
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
+  const statsRef = useRef(null);
+
+  // Counter for property stats - only start when visible
+  const propertiesCount = useCounter(isStatsVisible ? 250 : 0, 2000);
+  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
+  const supportCount = useCounter(isStatsVisible ? 24 : 0, 2000);
+  const citiesCount = useCounter(isStatsVisible ? 15 : 0, 2000);
+
+  // Intersection Observer to detect when stats section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsStatsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: '0px'
+      }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
 
   const propertyTypes = [
     { value: 'all', label: 'All Properties', icon: <FaHome /> },
@@ -100,11 +137,16 @@ const Properties = () => {
   ];
 
   const propertyStats = [
-    { number: '250+', label: 'Properties' },
-    { number: '98%', label: 'Satisfaction' },
-    { number: '24/7', label: 'Support' },
-    { number: '15+', label: 'Cities' }
+    { number: propertiesCount, label: 'Properties', suffix: '+' },
+    { number: satisfactionCount, label: 'Satisfaction', suffix: '%' },
+    { number: supportCount, label: 'Support', prefix: '', suffix: '/7' },
+    { number: citiesCount, label: 'Cities', suffix: '+' }
   ];
+
+  // Format number with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   // Filter properties based on active filter
   const filteredProperties = activeFilter === 'all' 
@@ -120,16 +162,26 @@ const Properties = () => {
             <h1 className="page-title">
               Find Your <span className="highlight">Perfect</span> Home
             </h1>
-            <p className="page-subtitle">
-              Discover premium properties tailored to your lifestyle and aspirations
-            </p>
           </div>
           
-          {/* Stats Banner */}
-          <div className="stats-banner" data-aos="fade-up" data-aos-delay="200">
+          {/* Stats Banner with Counter - Add ref for intersection observer */}
+          <div 
+            className="stats-banner" 
+            data-aos="fade-up" 
+            data-aos-delay="200"
+            ref={statsRef}
+          >
             {propertyStats.map((stat, index) => (
               <div className="stat-item" key={index}>
-                <div className="stat-number">{stat.number}</div>
+                <div className="stat-number">
+                  {isStatsVisible 
+                    ? index === 0 
+                      ? formatNumber(stat.number)
+                      : index === 2 
+                        ? stat.number + stat.suffix
+                        : stat.number + stat.suffix
+                    : '0' + (index === 2 ? '/7' : stat.suffix || '')}
+                </div>
                 <div className="stat-label">{stat.label}</div>
               </div>
             ))}
@@ -184,9 +236,6 @@ const Properties = () => {
                 />
               ))}
             </div>
-
-            {/* Pagination */}
-         
 
             {/* Call to Action */}
             <div className="properties-cta" data-aos="fade-up">

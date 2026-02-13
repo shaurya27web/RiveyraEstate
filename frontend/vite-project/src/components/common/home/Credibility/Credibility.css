@@ -362,3 +362,307 @@
     height: 35px;
   }
 }
+/* Add to the end of your Credibility.css file */
+
+/* Achievements Section with Counter Animation */
+/* Achievements Section - Updated with Labels Below Numbers */
+.achievements-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+  padding: 3rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: sectionFadeIn 1s ease forwards;
+}
+
+@keyframes sectionFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.achievements-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.achievement-item {
+  color: white;
+  position: relative;
+  padding: 1.5rem 1rem;
+  animation: fadeInUp 0.8s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.achievement-item:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.achievement-number {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1;
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.9));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.achievement-number::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.8), 
+    rgba(255, 255, 255, 0.4), 
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 3px;
+  transform-origin: center;
+  animation: counterUnderline 0.8s ease-out forwards;
+  animation-delay: 0.6s;
+}
+
+@keyframes counterUnderline {
+  to {
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+.achievement-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 40px;
+  backdrop-filter: blur(10px);
+  color: white;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.achievement-item:hover .achievement-label {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1.5px;
+}
+
+/* Animation for achievement items */
+.achievement-item:nth-child(1) {
+  animation: slideInLeft 0.6s ease forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.achievement-item:nth-child(2) {
+  animation: slideInLeft 0.6s ease forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.achievement-item:nth-child(3) {
+  animation: slideInLeft 0.6s ease forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.achievement-item:nth-child(4) {
+  animation: slideInLeft 0.6s ease forwards;
+  animation-delay: 0.7s;
+  opacity: 0;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .achievements-section {
+    gap: 1.5rem;
+    padding: 2.5rem;
+  }
+  
+  .achievement-number {
+    font-size: 2.5rem;
+  }
+  
+  .achievement-label {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .achievements-section {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem;
+    gap: 1.25rem;
+  }
+  
+  .achievement-item {
+    padding: 1.25rem 0.75rem;
+  }
+  
+  .achievement-number {
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .achievement-label {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .achievement-number::after {
+    width: 50px;
+    height: 2px;
+    bottom: -8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .achievements-section {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+  
+  .achievement-item {
+    padding: 1rem 0.5rem;
+  }
+  
+  .achievement-number {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .achievement-label {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  
+  .achievement-number::after {
+    width: 40px;
+    bottom: -6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievements-section {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+    gap: 1rem;
+  }
+  
+  .achievement-item {
+    padding: 1.25rem;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  .achievement-number {
+    font-size: 2rem;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+  }
+  
+  .achievement-label {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    white-space: normal;
+    margin-top: 0;
+  }
+  
+  .achievement-number::after {
+    display: none;
+  }
+  
+  .achievement-item:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .achievements-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .achievement-item {
+    padding: 1rem;
+  }
+  
+  .achievement-number {
+    font-size: 1.75rem;
+  }
+  
+  .achievement-label {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

@@ -8,11 +8,13 @@ import {
   FaInfoCircle,
   FaBuilding 
 } from 'react-icons/fa';
+import useNavigationWithRefresh from '../../../hooks/useNavigationWithRefresh';
 import './Header.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { handleNavigation, handleLogoClick } = useNavigationWithRefresh();
 
   const navItems = [
     { to: '/', label: 'Home', icon: <FaHome /> },
@@ -28,7 +30,10 @@ const Header = () => {
         <div className="header-content">
           {/* Logo on Left */}
           <div className="logo">
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/" onClick={(e) => {
+              handleLogoClick(e);
+              setIsMenuOpen(false);
+            }}>
               <span className="logo-icon"><FaBuilding /></span>
               <span className="logo-text">Riveyra<span className="logo-highlight">Estate</span></span>
             </Link>
@@ -41,7 +46,10 @@ const Header = () => {
                 key={item.to} 
                 to={item.to} 
                 className={`nav-link ${location.pathname === item.to ? 'active' : ''}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  handleNavigation(e, item.to);
+                  setIsMenuOpen(false);
+                }}
               >
                 <span className="nav-icon">{item.icon}</span>
                 {item.label}
@@ -51,8 +59,6 @@ const Header = () => {
 
           {/* CTA Button on Right */}
           <div className="header-actions">
-            
-            
             <button 
               className="menu-toggle" 
               onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaChevronLeft, FaChevronRight, FaExpand, FaPause, FaPlay } from 'react-icons/fa';
+import useCounter from '../../../../hooks/useCounter';
 import './PhotoGallery.css';
 
 const PhotoGallery = () => {
@@ -7,7 +8,14 @@ const PhotoGallery = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
   const mainImageRef = useRef(null);
+  const statsRef = useRef(null);
+  
+  // Counter for gallery stats - only start when visible
+  const propertiesCount = useCounter(isStatsVisible ? 500 : 0, 2000);
+  const professionallyShotCount = useCounter(isStatsVisible ? 100 : 0, 2000);
+  const virtualToursCount = useCounter(isStatsVisible ? 360 : 0, 2000);
 
   const galleryImages = [
     {
@@ -53,6 +61,35 @@ const PhotoGallery = () => {
       description: 'Beautifully landscaped gardens with outdoor seating'
     }
   ];
+
+  // Intersection Observer to detect when stats section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsStatsVisible(true);
+            // Once stats are visible, we can stop observing
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the element is visible
+        rootMargin: '0px'
+      }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => 
@@ -108,7 +145,7 @@ const PhotoGallery = () => {
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
 
-    if (Math.abs(diff) > 50) { // Minimum swipe distance
+    if (Math.abs(diff) > 50) {
       if (diff > 0) {
         nextSlide();
       } else {
@@ -117,6 +154,11 @@ const PhotoGallery = () => {
     }
 
     setTouchStart(null);
+  };
+
+  // Format number with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   return (
@@ -223,7 +265,8 @@ const PhotoGallery = () => {
           </div>
         </div>
 
-        <div className="gallery-info">
+        {/* Stats Section with Intersection Observer */}
+        <div className="gallery-info" ref={statsRef}>
           <div className="info-content">
             <div className="info-text-wrapper">
               <p className="info-text">
@@ -236,19 +279,25 @@ const PhotoGallery = () => {
               <div className="info-stats">
                 <div className="stat">
                   <div className="stat-circle">
-                    <span className="stat-number">500+</span>
+                    <span className="stat-number">
+                      {isStatsVisible ? formatNumber(propertiesCount) : '0'}+
+                    </span>
                   </div>
                   <span className="stat-label">Properties</span>
                 </div>
                 <div className="stat">
                   <div className="stat-circle">
-                    <span className="stat-number">100%</span>
+                    <span className="stat-number">
+                      {isStatsVisible ? professionallyShotCount : '0'}%
+                    </span>
                   </div>
                   <span className="stat-label">Professionally Shot</span>
                 </div>
                 <div className="stat">
                   <div className="stat-circle">
-                    <span className="stat-number">360°</span>
+                    <span className="stat-number">
+                      {isStatsVisible ? virtualToursCount : '0'}°
+                    </span>
                   </div>
                   <span className="stat-label">Virtual Tours</span>
                 </div>

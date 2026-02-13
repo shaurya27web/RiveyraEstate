@@ -11,6 +11,7 @@ import {
   FaBuilding,
   FaCity
 } from 'react-icons/fa';
+import useCounter from '../../../../hooks/useCounter';
 import './Hero.css';
 
 const Hero = () => {
@@ -25,8 +26,12 @@ const Hero = () => {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [searchCount, setSearchCount] = useState(12543);
   const [animateStats, setAnimateStats] = useState(false);
+  
+  // Use the counter hook - FIXED
+  const count1 = useCounter(12543, 2000);
+  const count2 = useCounter(500, 1500);
+  const count3 = useCounter(98, 1500);
 
   const locationSuggestions = [
     'New York, NY',
@@ -49,7 +54,9 @@ const Hero = () => {
 
   // Animate stats on load
   useEffect(() => {
-    const timer = setTimeout(() => setAnimateStats(true), 500);
+    const timer = setTimeout(() => {
+      setAnimateStats(true);
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -62,7 +69,6 @@ const Hero = () => {
       console.log('Searching for:', searchParams);
       alert(`Searching for ${searchParams.propertyType} properties in ${searchParams.location || 'any location'} with ${searchParams.bedrooms || 'any'} bedrooms`);
       setIsSearching(false);
-      setSearchCount(prev => prev + 1);
     }, 1000);
   };
 
@@ -103,6 +109,11 @@ const Hero = () => {
     });
   };
 
+  // Format number with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <section className="hero">
       <div className="container">
@@ -119,24 +130,21 @@ const Hero = () => {
             
             <div className="hero-stats">
               <div className={`stat ${animateStats ? 'animated' : ''}`}>
-                <span className="stat-number">{searchCount.toLocaleString()}+</span>
+                <span className="stat-number">{formatNumber(count1)}+</span>
                 <span className="stat-label">Successful Searches</span>
               </div>
               <div className={`stat ${animateStats ? 'animated' : ''}`} style={{animationDelay: '0.2s'}}>
-                <span className="stat-number">500+</span>
+                <span className="stat-number">{count2}+</span>
                 <span className="stat-label">Properties</span>
               </div>
               <div className={`stat ${animateStats ? 'animated' : ''}`} style={{animationDelay: '0.4s'}}>
-                <span className="stat-number">98%</span>
+                <span className="stat-number">{count3}%</span>
                 <span className="stat-label">Satisfaction</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Floating Properties Widget */}
-    
       
       <div className="hero-background">
         <div className="shape shape-1"></div>

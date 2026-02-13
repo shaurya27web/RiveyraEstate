@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FaShieldAlt, 
   FaChartLine, 
@@ -9,11 +9,49 @@ import {
   FaChevronLeft,
   FaChevronRight
 } from 'react-icons/fa';
+import useCounter from '../../../../hooks/useCounter';
 import './Credibility.css';
 
 const Credibility = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
+  const statsRef = useRef(null);
+
+  // Counter for achievements - only start when visible
+  const yearsCount = useCounter(isStatsVisible ? 15 : 0, 2000);
+  const propertiesSoldCount = useCounter(isStatsVisible ? 2500 : 0, 2000);
+  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
+  const awardsCount = useCounter(isStatsVisible ? 50 : 0, 2000);
+
+  // Intersection Observer to detect when stats section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsStatsVisible(true);
+            // Once stats are visible, we can stop observing
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the element is visible
+        rootMargin: '0px'
+      }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
 
   const credibilityPoints = [
     {
@@ -126,6 +164,11 @@ const Credibility = () => {
     return () => clearInterval(interval);
   }, [autoplay, currentTestimonial]);
 
+  // Format number with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <section className="credibility-section">
       <div className="container">
@@ -227,21 +270,30 @@ const Credibility = () => {
           </div>
         </div>
 
-        <div className="achievements-section">
+        {/* Achievements Section with Intersection Observer */}
+        <div className="achievements-section" ref={statsRef}>
           <div className="achievement-item">
-            <div className="achievement-number">15+</div>
+            <div className="achievement-number">
+              {isStatsVisible ? yearsCount : '0'}+
+            </div>
             <div className="achievement-label">Years Experience</div>
           </div>
           <div className="achievement-item">
-            <div className="achievement-number">2500+</div>
+            <div className="achievement-number">
+              {isStatsVisible ? formatNumber(propertiesSoldCount) : '0'}+
+            </div>
             <div className="achievement-label">Properties Sold</div>
           </div>
           <div className="achievement-item">
-            <div className="achievement-number">98%</div>
+            <div className="achievement-number">
+              {isStatsVisible ? satisfactionCount : '0'}%
+            </div>
             <div className="achievement-label">Client Satisfaction</div>
           </div>
           <div className="achievement-item">
-            <div className="achievement-number">50+</div>
+            <div className="achievement-number">
+              {isStatsVisible ? awardsCount : '0'}+
+            </div>
             <div className="achievement-label">Awards Won</div>
           </div>
         </div>

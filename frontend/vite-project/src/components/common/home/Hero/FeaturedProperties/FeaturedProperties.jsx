@@ -5,7 +5,7 @@ import './FeaturedProperties.css';
 
 const FeaturedProperties = ({ properties = [] }) => {
   
-  const featuredProperties = properties.filter(p => p.featured).slice(0, 2);
+  const featuredProperties = properties.slice(0, 3);
 
   return (
     <section className="section featured-properties">
