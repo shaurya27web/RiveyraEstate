@@ -18,9 +18,10 @@ const Header = () => {
 
   const navItems = [
     { to: '/', label: 'Home', icon: <FaHome /> },
-    { to: '/properties', label: 'Properties', icon: <FaSearch /> },
+     { to: '/about', label: 'About', icon: <FaInfoCircle /> },
+
     { to: '/agents', label: 'Agents', icon: <FaUser /> },
-    { to: '/about', label: 'About', icon: <FaInfoCircle /> },
+       { to: '/properties', label: 'Properties', icon: <FaSearch /> },
     { to: '/contact', label: 'Contact', icon: <FaPhoneAlt /> },
   ];
 

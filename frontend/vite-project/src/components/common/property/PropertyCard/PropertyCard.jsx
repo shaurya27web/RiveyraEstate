@@ -24,10 +24,10 @@ const PropertyCard = ({ property }) => {
   } = property || {};
 
   // Counters - only start when card is visible
-  const animatedPrice = useCounter(isCardVisible ? price : 0, 1500);
-  const animatedArea = useCounter(isCardVisible ? area : 0, 1200);
-  const animatedRating = useCounter(isCardVisible ? rating * 10 : 0, 1000);
-  const animatedReviews = useCounter(isCardVisible ? reviews : 0, 1200);
+  const animatedPrice = useCounter(isCardVisible ? price : 0, 2500);
+  const animatedArea = useCounter(isCardVisible ? area : 0, 2200);
+  const animatedRating = useCounter(isCardVisible ? rating * 10 : 0, 2000);
+  const animatedReviews = useCounter(isCardVisible ? reviews : 0, 2200);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -94,9 +94,7 @@ const PropertyCard = ({ property }) => {
           <Link to={`/properties/${id}`} className="btn btn-primary view-details-btn">
             View Details
           </Link>
-          <button className="btn-favorite" aria-label="Add to favorites">
-            ♥
-          </button>
+  
         </div>
       </div>
     </div>

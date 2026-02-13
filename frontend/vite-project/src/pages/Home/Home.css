@@ -165,7 +165,7 @@
 }
 
 .cta-highlight {
-  background: linear-gradient(90deg, #094f44, #0d9480);
+  background: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

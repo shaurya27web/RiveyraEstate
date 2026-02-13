@@ -19,10 +19,10 @@ const Credibility = () => {
   const statsRef = useRef(null);
 
   // Counter for achievements - only start when visible
-  const yearsCount = useCounter(isStatsVisible ? 15 : 0, 2000);
-  const propertiesSoldCount = useCounter(isStatsVisible ? 2500 : 0, 2000);
-  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
-  const awardsCount = useCounter(isStatsVisible ? 50 : 0, 2000);
+  const yearsCount = useCounter(isStatsVisible ? 15 : 0, 3000);
+  const propertiesSoldCount = useCounter(isStatsVisible ? 2500 : 0, 3000);
+  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 3000);
+  const awardsCount = useCounter(isStatsVisible ? 50 : 0, 3000);
 
   // Intersection Observer to detect when stats section is visible
   useEffect(() => {

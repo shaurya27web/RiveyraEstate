@@ -93,10 +93,10 @@ const Properties = () => {
   const statsRef = useRef(null);
 
 
-  const propertiesCount = useCounter(isStatsVisible ? 250 : 0, 2000);
-  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 2000);
-  const supportCount = useCounter(isStatsVisible ? 24 : 0, 2000);
-  const citiesCount = useCounter(isStatsVisible ? 15 : 0, 2000);
+  const propertiesCount = useCounter(isStatsVisible ? 250 : 0, 3000);
+  const satisfactionCount = useCounter(isStatsVisible ? 98 : 0, 3000);
+  const supportCount = useCounter(isStatsVisible ? 24 : 0, 3000);
+  const citiesCount = useCounter(isStatsVisible ? 15 : 0, 3000);
 
   
   useEffect(() => {
@@ -167,14 +167,14 @@ const Properties = () => {
           
 
           <div 
-            className="stats-banner" 
+            className="stats-banner-prop" 
             data-aos="fade-up" 
             data-aos-delay="200"
             ref={statsRef}
           >
             {propertyStats.map((stat, index) => (
               <div className="stat-item" key={index}>
-                <div className="stat-number">
+                <div className="stat-number-prop">
                   {isStatsVisible 
                     ? index === 0 
                       ? formatNumber(stat.number)
@@ -183,7 +183,7 @@ const Properties = () => {
                         : stat.number + stat.suffix
                     : '0' + (index === 2 ? '/7' : stat.suffix || '')}
                 </div>
-                <div className="stat-label">{stat.label}</div>
+                <div className="stat-label-prop">{stat.label}</div>
               </div>
             ))}
           </div>

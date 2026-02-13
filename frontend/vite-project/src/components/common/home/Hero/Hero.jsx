@@ -29,9 +29,9 @@ const Hero = () => {
   const [animateStats, setAnimateStats] = useState(false);
   
   // Use the counter hook - FIXED
-  const count1 = useCounter(12543, 2000);
-  const count2 = useCounter(500, 1500);
-  const count3 = useCounter(98, 1500);
+  const count1 = useCounter(12000, 3000);
+  const count2 = useCounter(500, 2500);
+  const count3 = useCounter(98, 2500);
 
   const locationSuggestions = [
     'New York, NY',
