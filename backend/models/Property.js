@@ -44,7 +44,7 @@ const propertySchema = new mongoose.Schema({
   agent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true // All properties must be linked to the agent
+    required: true
   },
   featured: {
     type: Boolean,
@@ -60,10 +60,6 @@ const propertySchema = new mongoose.Schema({
   }
 });
 
-// Update timestamp on save
-propertySchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
+// Remove all middleware - no pre-save hooks
 
 module.exports = mongoose.model('Property', propertySchema);

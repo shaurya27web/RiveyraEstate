@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   FaStar, 
-  FaPhone, 
-  FaEnvelope, 
-  FaMapMarkerAlt, 
-  FaFacebook, 
-  FaTwitter, 
-  FaInstagram, 
-  FaLinkedin 
+  FaMapMarkerAlt
 } from 'react-icons/fa';
 import { getAgents } from '../../services/api';
 import './Agents.css';
@@ -25,20 +19,12 @@ const Agents = () => {
 
   const fetchAgents = async () => {
     try {
-      console.log('Fetching agents...');
       const response = await getAgents();
-      console.log('Full API Response:', response);
-      console.log('Response data:', response.data);
-      
-      // Handle different response structures
       if (response.data && response.data.data) {
-        console.log('Setting agents from response.data.data:', response.data.data);
         setAgents(response.data.data);
       } else if (Array.isArray(response.data)) {
-        console.log('Setting agents from response.data (array):', response.data);
         setAgents(response.data);
       } else {
-        console.log('Unexpected response structure, setting empty array');
         setAgents([]);
       }
     } catch (error) {
@@ -49,7 +35,7 @@ const Agents = () => {
     }
   };
 
-  // Stats counters - using requestAnimationFrame for smooth animation
+  // Stats counters
   const [statsCounters, setStatsCounters] = useState({
     experts: 0,
     clients: 0,
@@ -57,72 +43,73 @@ const Agents = () => {
     satisfaction: 0
   });
 
-  // Stats counter animation
+  // Stats counter animation - FIXED
   useEffect(() => {
     if (!isStatsVisible) return;
 
     const targets = {
-      experts: 50,
+      experts: agents.length || 6,
       clients: 10000,
       propertySold: 5000000000,
       satisfaction: 98
     };
 
-    const durations = {
-      experts: 2000,
-      clients: 2500,
-      propertySold: 2500,
-      satisfaction: 2000
-    };
-
-    const startTimes = {};
-    const animationFrame = {};
-
-    Object.keys(targets).forEach((key) => {
-      const animate = (timestamp) => {
-        if (!startTimes[key]) startTimes[key] = timestamp;
-        const progress = Math.min((timestamp - startTimes[key]) / durations[key], 1);
-        
-        setStatsCounters(prev => ({
-          ...prev,
-          [key]: Math.floor(progress * targets[key])
-        }));
-
-        if (progress < 1) {
-          animationFrame[key] = requestAnimationFrame(animate);
-        }
-      };
-
-      animationFrame[key] = requestAnimationFrame(animate);
+    // Reset counters to 0 before starting animation
+    setStatsCounters({
+      experts: 0,
+      clients: 0,
+      propertySold: 0,
+      satisfaction: 0
     });
 
-    return () => {
-      Object.values(animationFrame).forEach(frame => {
-        if (frame) cancelAnimationFrame(frame);
-      });
-    };
-  }, [isStatsVisible]);
+    const duration = 2500;
+    const startTime = performance.now();
 
-  // Intersection Observer for stats section
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      setStatsCounters({
+        experts: Math.floor(progress * targets.experts),
+        clients: Math.floor(progress * targets.clients),
+        propertySold: Math.floor(progress * targets.propertySold),
+        satisfaction: Math.floor(progress * targets.satisfaction)
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    const animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isStatsVisible, agents.length]);
+
+  // Intersection Observer for stats section - IMPROVED
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            console.log('Stats section visible - starting animation');
             setIsStatsVisible(true);
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.3,
-        rootMargin: '0px'
+        threshold: 0.1, // Lower threshold to trigger earlier
+        rootMargin: '0px 0px -50px 0px' // Adjust margin
       }
     );
 
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      if (statsRef.current) {
+        observer.observe(statsRef.current);
+        console.log('Observer attached to stats section');
+      }
+    }, 500);
 
     return () => {
       if (statsRef.current) {
@@ -155,7 +142,6 @@ const Agents = () => {
       label: 'Expert Agents', 
       suffix: '+',
       prefix: '',
-      isVisible: isStatsVisible,
       format: null
     },
     { 
@@ -163,7 +149,6 @@ const Agents = () => {
       label: 'Happy Clients', 
       suffix: '+',
       prefix: '',
-      isVisible: isStatsVisible,
       format: null
     },
     { 
@@ -171,7 +156,6 @@ const Agents = () => {
       label: 'Property Sold', 
       suffix: '+',
       prefix: '$',
-      isVisible: isStatsVisible,
       format: formatCurrency
     },
     { 
@@ -179,7 +163,6 @@ const Agents = () => {
       label: 'Satisfaction Rate', 
       suffix: '%',
       prefix: '',
-      isVisible: isStatsVisible,
       format: null
     }
   ];
@@ -195,11 +178,73 @@ const Agents = () => {
     );
   }
 
-  console.log('Rendering with agents:', agents);
-
   return (
     <PageTransition>
     <div className="agents-page">
+      {/* Agents Grid Section */}
+      <section className="agents-grid-section">
+        <div className="container">
+          <div className="section-header" data-aos="fade-up">
+            <h2 className="section-title">Our Top Agents</h2>
+            <p className="section-subtitle">Connect with our experienced agents who specialize in your desired property type</p>
+          </div>
+
+          <div className="agents-grid">
+            {agents && agents.length > 0 ? (
+              agents.map((agent, index) => (
+                <div 
+                  className="agent-card" 
+                  key={agent._id || index}
+                  data-aos="fade-up" 
+                  data-aos-delay={index * 100}
+                >
+                  <div className="agent-card-inner">
+                    {/* Agent Image & Badge */}
+                    <div className="agent-image-container">
+                      <img 
+                        src={agent.profileImage || 'https://via.placeholder.com/300'} 
+                        alt={agent.name || 'Agent'} 
+                        className="agent-image" 
+                      />
+                      <div className="experience-badge">
+                        {agent.agentInfo?.experience ? agent.agentInfo.experience + '+ Years' : agent.experience || '5+ Years'}
+                      </div>
+                      <div className="agent-status"></div>
+                    </div>
+
+                    {/* Agent Info - Only Name, Rating, Designation, Location */}
+                    <div className="agent-info">
+                      <div className="agent-header">
+                        <h3 className="agent-name">{agent.name || 'Agent Name'}</h3>
+                        <div className="agent-rating">
+                          <FaStar className="star-icon" />
+                          <span className="rating-number">
+                            {agent.rating || '4.9'}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <p className="agent-title">{agent.title || agent.agentInfo?.title || 'Real Estate Agent'}</p>
+                      
+                      <div className="agent-details">
+                        <div className="detail-item">
+                          <FaMapMarkerAlt className="detail-icon" />
+                          <span>{agent.location || 'Location not specified'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-agents-message">
+                <p>No agents found</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section with Stats Counters */}
       <section className="agents-hero" data-aos="fade-up">
         <div className="container">
@@ -236,119 +281,6 @@ const Agents = () => {
         <div className="agents-hero-shape shape-1"></div>
         <div className="agents-hero-shape shape-2"></div>
         <div className="agents-hero-shape shape-3"></div>
-      </section>
-
-      {/* Agents Grid */}
-      <section className="agents-grid-section">
-        <div className="container">
-          <div className="section-header" data-aos="fade-up">
-            <h2 className="section-title">Our Top Agents</h2>
-            <p className="section-subtitle">Connect with our experienced agents who specialize in your desired property type</p>
-          </div>
-
-          <div className="agents-grid">
-          {agents && agents.length > 0 ? (
-            agents.map((agent, index) => (
-              <div 
-                className="agent-card" 
-                key={agent._id || index}
-                data-aos="fade-up" 
-                data-aos-delay={index * 100}
-              >
-                <div className="agent-card-inner">
-                  {/* Agent Image & Badge */}
-                  <div className="agent-image-container">
-                    <img 
-                      src={agent.profileImage || 'https://via.placeholder.com/300'} 
-                      alt={agent.name || 'Agent'} 
-                      className="agent-image" 
-                    />
-                    <div className="experience-badge">
-                      {(agent.agentInfo && agent.agentInfo.experience) ? agent.agentInfo.experience + '+ Years' : '5+ Years'}
-                    </div>
-                    <div className="agent-status"></div>
-                  </div>
-
-                  {/* Agent Info */}
-                  <div className="agent-info">
-                    <div className="agent-header">
-                      <h3 className="agent-name">{agent.name || 'Agent Name'}</h3>
-                      <div className="agent-rating">
-                        <FaStar className="star-icon" />
-                        <span className="rating-number">
-                          {(agent.agentInfo && agent.agentInfo.featured) ? '4.9' : '4.8'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <p className="agent-title">Real Estate Agent</p>
-                    
-                    <div className="agent-details">
-                      <div className="detail-item">
-                        <FaMapMarkerAlt className="detail-icon" />
-                        <span>Location not specified</span>
-                      </div>
-                    </div>
-
-                    {/* Specialties */}
-                    <div className="agent-specialties">
-                      {(agent.agentInfo && agent.agentInfo.specialization && agent.agentInfo.specialization.length > 0) ? (
-                        agent.agentInfo.specialization.map((specialty, idx) => (
-                          <span className="specialty-tag" key={idx}>{specialty}</span>
-                        ))
-                      ) : (
-                        <span className="specialty-tag">General Real Estate</span>
-                      )}
-                    </div>
-
-                    {/* Contact Info */}
-                    <div className="agent-contact">
-                      <div className="contact-item">
-                        <FaPhone className="contact-icon" />
-                        <span>{agent.phone || 'Not available'}</span>
-                      </div>
-                      <div className="contact-item">
-                        <FaEnvelope className="contact-icon" />
-                        <span>{agent.email || 'Not available'}</span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="agent-actions">
-                      <button className="btn btn-primary">
-                        View Profile
-                      </button>
-                      <button className="btn btn-secondary">
-                        Contact
-                      </button>
-                    </div>
-
-                    {/* Social Links */}
-                    <div className="agent-social">
-                      <a href="#" className="social-link">
-                        <FaFacebook />
-                      </a>
-                      <a href="#" className="social-link">
-                        <FaTwitter />
-                      </a>
-                      <a href="#" className="social-link">
-                        <FaInstagram />
-                      </a>
-                      <a href="#" className="social-link">
-                        <FaLinkedin />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="no-agents-message">
-              <p>No agents found</p>
-            </div>
-          )}
-          </div>
-        </div>
       </section>
 
       {/* CTA Section */}

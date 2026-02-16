@@ -19,6 +19,11 @@ import Agents from './pages/Agents/Agents';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import PropertyDetails from './pages/Properties/PropertyDetails';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+
+// Admin Route Protection
+import PrivateRoute from './components/Admin/PrivateRoutes';
+import Login from './pages/Admin/Login';
 
 // Styles
 import './App.css';
@@ -88,7 +93,26 @@ function App() {
                     <Contact />
                   </PageTransition>
                 } 
+                
               />
+              <Route 
+  path="/admin" 
+  element={
+    <PrivateRoute>
+      <PageTransition>
+        <AdminDashboard />
+      </PageTransition>
+    </PrivateRoute>
+  } 
+/>
+<Route 
+  path="/admin/login" 
+  element={
+    <PageTransition>
+      <Login />
+    </PageTransition>
+  } 
+/>
             </Routes>
           </AnimatePresence>
         </main>

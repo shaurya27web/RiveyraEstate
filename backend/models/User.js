@@ -24,14 +24,12 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
   
-  // Role: 'admin' (you), 'agent' (single agent), 'user' (regular visitors)
   role: {
     type: String,
     enum: ['admin', 'agent', 'user'],
     default: 'user'
   },
   
-  // Profile
   profileImage: {
     type: String,
     default: '/images/default-avatar.jpg'
@@ -41,7 +39,6 @@ const userSchema = new mongoose.Schema({
     maxlength: 500
   },
   
-  // Only for agent (single agent)
   agentInfo: {
     licenseNumber: String,
     experience: Number,
@@ -55,18 +52,20 @@ const userSchema = new mongoose.Schema({
     },
     featured: {
       type: Boolean,
-      default: true // Single agent is featured by default
+      default: false
     }
   },
   
-  // Account status
+  location: String,
+  rating: Number,
+  totalSales: Number,
+  
   isActive: {
     type: Boolean,
     default: true
   },
   lastLogin: Date,
   
-  // Timestamps
   createdAt: {
     type: Date,
     default: Date.now
@@ -77,22 +76,44 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// Hash password before saving - FIXED
+userSchema.pre('save', function(next) {
+  const user = this;
+  
+  // Only hash if password is modified
+  if (!user.isModified('password')) return next();
+  
+  // Generate salt and hash
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+    
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+      
+      user.password = hash;
+      user.updatedAt = Date.now();
+      next();
+    });
+  });
+});
+
+// Compare password method
+userSchema.methods.comparePassword = function(candidatePassword) {
+  const user = this;
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+      if (err) return reject(err);
+      resolve(isMatch);
+    });
+  });
+};
+
 // Get public profile (no sensitive data)
 userSchema.methods.getPublicProfile = function() {
   const user = this.toObject();
   delete user.password;
   delete user.__v;
   return user;
-};
-
-// Check if user is admin
-userSchema.methods.isAdmin = function() {
-  return this.role === 'admin';
-};
-
-// Check if user is agent
-userSchema.methods.isAgent = function() {
-  return this.role === 'agent';
 };
 
 const User = mongoose.model('User', userSchema);
