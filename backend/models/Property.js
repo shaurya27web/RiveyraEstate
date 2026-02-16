@@ -23,7 +23,7 @@ const propertySchema = new mongoose.Schema({
   features: {
     bedrooms: Number,
     bathrooms: Number,
-    area: Number, // square feet/meters
+    area: Number,
     garage: Boolean,
     yearBuilt: Number
   },
@@ -43,7 +43,8 @@ const propertySchema = new mongoose.Schema({
   },
   agent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true // All properties must be linked to the agent
   },
   featured: {
     type: Boolean,
@@ -52,7 +53,17 @@ const propertySchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+// Update timestamp on save
+propertySchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 module.exports = mongoose.model('Property', propertySchema);

@@ -8,26 +8,30 @@ const PropertyCard = ({ property }) => {
   const [isCardVisible, setIsCardVisible] = useState(false);
   const cardRef = useRef(null);
   
+  // Destructure from MongoDB schema structure
   const {
-    id = 1,
+    _id,
     title = 'Property',
     price = 0,
-    address = 'Address not available',
-    beds = 0,
-    baths = 0,
-    area = 0,
-    image = 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&auto=format&fit=crop',
-    type = 'House',
-    featured = false,
-    rating = 4.8,
-    reviews = 124
+    location = {},
+    features = {},
+    images = [],
+    propertyType = 'House',
+    featured = false
   } = property || {};
+
+  // Get values from the nested objects
+  const address = location?.address || 'Address not available';
+  const city = location?.city || '';
+  const state = location?.state || '';
+  const beds = features?.bedrooms || 0;
+  const baths = features?.bathrooms || 0;
+  const area = features?.area || 0;
+  const image = images?.[0]?.url || 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&auto=format&fit=crop';
 
   // Counters - only start when card is visible
   const animatedPrice = useCounter(isCardVisible ? price : 0, 2500);
   const animatedArea = useCounter(isCardVisible ? area : 0, 2200);
-  const animatedRating = useCounter(isCardVisible ? rating * 10 : 0, 2000);
-  const animatedReviews = useCounter(isCardVisible ? reviews : 0, 2200);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,14 +51,16 @@ const PropertyCard = ({ property }) => {
   }, []);
 
   const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const formatRating = (num) => (num / 10).toFixed(1);
+
+  // Format location string
+  const locationString = city && state ? `${city}, ${state}` : address;
 
   return (
     <div className={`property-card ${featured ? 'featured' : ''}`} ref={cardRef}>
       <div className="property-image">
         <img src={image} alt={title} loading="lazy" />
         <div className="property-badges">
-          <span className="property-type">{type}</span>
+          <span className="property-type">{propertyType}</span>
           {featured && <span className="featured-badge">Featured</span>}
         </div>
         <div className="property-price-tag">
@@ -63,16 +69,10 @@ const PropertyCard = ({ property }) => {
       </div>
       
       <div className="property-content">
-        <div className="property-rating">
-          <span className="rating-stars">★</span>
-          <span className="rating-value">{isCardVisible ? formatRating(animatedRating) : '0'}</span>
-          <span className="rating-count">({isCardVisible ? animatedReviews : '0'} reviews)</span>
-        </div>
-        
         <h3 className="property-title">{title}</h3>
         <div className="property-location">
           <FaMapMarkerAlt />
-          <span>{address}</span>
+          <span>{locationString}</span>
         </div>
         
         <div className="property-features">
@@ -91,10 +91,9 @@ const PropertyCard = ({ property }) => {
         </div>
         
         <div className="property-footer">
-          <Link to={`/properties/${id}`} className="btn btn-primary view-details-btn">
+          <Link to={`/properties/${_id}`} className="btn btn-primary view-details-btn">
             View Details
           </Link>
-  
         </div>
       </div>
     </div>

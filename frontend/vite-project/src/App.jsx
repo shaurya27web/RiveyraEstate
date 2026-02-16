@@ -18,6 +18,7 @@ import Properties from './pages/Properties/Properties';
 import Agents from './pages/Agents/Agents';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
+import PropertyDetails from './pages/Properties/PropertyDetails';
 
 // Styles
 import './App.css';
@@ -56,13 +57,14 @@ function App() {
                   </PageTransition>
                 } 
               />
-              <Route 
-                path="/properties/:id" 
-                element={
-                  <PageTransition>
-                  </PageTransition>
-                } 
-              />
+             <Route 
+  path="/properties/:id" 
+  element={
+    <PageTransition>
+      <PropertyDetails />
+    </PageTransition>
+  } 
+/>
               <Route 
                 path="/agents" 
                 element={
