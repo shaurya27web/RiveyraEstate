@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import useCounter from '../../hooks/useCounter';
 import './About.css';
+import PageTransition from '../../components/Animations/PageTransition';
 
 const About = () => {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
@@ -194,6 +195,7 @@ const About = () => {
   ];
 
   return (
+    <PageTransition>
     <div className="about-page">
       {/* Hero Section with Stats Counters */}
       <section className="about-hero" data-aos="fade-up">
@@ -395,6 +397,7 @@ const About = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };
 

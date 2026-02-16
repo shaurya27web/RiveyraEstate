@@ -20,6 +20,7 @@ import {
   FaHeadset
 } from 'react-icons/fa';
 import './Contact.css';
+import PageTransition from '../../components/Animations/PageTransition';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -131,11 +132,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-page">
-      {/* Animated Hero Section */}
-      <section className="contact-hero">
-        <div className="container">
-          <div className="hero-content">
+    <PageTransition>
+      <div className="contact-page">
+        {/* Animated Hero Section */}
+        <section className="contact-hero">
+          <div className="container">
+            <div className="hero-content">
             <div className="hero-text">
               <h6 className="hero-subtitle">Get in Touch</h6>
               <h1 className="hero-title">
@@ -453,6 +455,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 

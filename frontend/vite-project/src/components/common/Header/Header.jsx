@@ -18,10 +18,9 @@ const Header = () => {
 
   const navItems = [
     { to: '/', label: 'Home', icon: <FaHome /> },
-     { to: '/about', label: 'About', icon: <FaInfoCircle /> },
-
+    { to: '/about', label: 'About', icon: <FaInfoCircle /> },
     { to: '/agents', label: 'Agents', icon: <FaUser /> },
-       { to: '/properties', label: 'Properties', icon: <FaSearch /> },
+    { to: '/properties', label: 'Properties', icon: <FaSearch /> },
     { to: '/contact', label: 'Contact', icon: <FaPhoneAlt /> },
   ];
 
@@ -58,7 +57,7 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button on Right */}
+          {/* Menu Toggle Button on Right */}
           <div className="header-actions">
             <button 
               className="menu-toggle" 

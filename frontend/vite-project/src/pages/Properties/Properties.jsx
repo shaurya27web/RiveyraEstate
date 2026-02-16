@@ -5,6 +5,7 @@ import { MdApartment, MdCottage } from 'react-icons/md';
 import { GiVillage } from 'react-icons/gi';
 import useCounter from '../../hooks/useCounter';
 import './Properties.css';
+import PageTransition from '../../components/Animations/PageTransition';
 
 const Properties = () => {
   const [properties, setProperties] = useState([
@@ -154,6 +155,7 @@ const Properties = () => {
     : properties.filter(property => property.type.toLowerCase() === activeFilter.toLowerCase());
 
   return (
+    <PageTransition>x
     <div className="properties-page">
     
       <section className="properties-hero">
@@ -250,6 +252,7 @@ const Properties = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 

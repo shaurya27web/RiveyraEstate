@@ -10,6 +10,7 @@ import {
   FaLinkedin 
 } from 'react-icons/fa';
 import './Agents.css';
+import PageTransition from '../../components/Animations/PageTransition';
 
 const Agents = () => {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
@@ -232,6 +233,7 @@ const Agents = () => {
   ];
 
   return (
+    <PageTransition>
     <div className="agents-page">
       {/* Hero Section with Stats Counters */}
      
@@ -384,6 +386,7 @@ const Agents = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };
 

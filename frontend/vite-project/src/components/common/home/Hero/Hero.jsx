@@ -28,7 +28,7 @@ const Hero = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [animateStats, setAnimateStats] = useState(false);
   
-  // Use the counter hook - FIXED
+  // Use the counter hook
   const count1 = useCounter(12000, 3000);
   const count2 = useCounter(500, 2500);
   const count3 = useCounter(98, 2500);
@@ -64,7 +64,6 @@ const Hero = () => {
     e.preventDefault();
     setIsSearching(true);
     
-    // Simulate API call
     setTimeout(() => {
       console.log('Searching for:', searchParams);
       alert(`Searching for ${searchParams.propertyType} properties in ${searchParams.location || 'any location'} with ${searchParams.bedrooms || 'any'} bedrooms`);
